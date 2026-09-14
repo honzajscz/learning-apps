@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning Apps</title>
+  <meta name="description" content="Rozcestník mých aplikací pro učení. Každá appka je samostatná PWA ve vlastní složce.">
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root { --bg: #faf7f2; --card: #fff; --text: #2a211c; --muted: #7a6c62; --line: rgba(60,40,30,.12); --accent: #c8563b; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #1c1917; --card: #2a2522; --text: #f5efe6; --muted: #b3a89b; --line: rgba(255,255,255,.09); --accent: #e07a5f; } }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; }
+    main { max-width: 640px; margin: 0 auto; padding: 32px 16px 48px; }
+    h1 { font-size: 1.6rem; margin: 0 0 4px; }
+    p.sub { color: var(--muted); margin: 0 0 24px; }
+    a.app { display: flex; gap: 14px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; text-decoration: none; color: inherit; margin-bottom: 12px; }
+    a.app .em { font-size: 34px; width: 44px; text-align: center; }
+    a.app b { display: block; font-size: 1.05rem; }
+    a.app span { color: var(--muted); font-size: .9rem; }
+    footer { color: var(--muted); font-size: .8rem; margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Learning Apps</h1>
+    <p class="sub">Aplikace pro učení. Každou si můžeš přidat na plochu jako samostatnou appku.</p>
+
+    <a class="app" href="claude-akademie/">
+      <span class="em">🎓</span>
+      <div><b>Claude Akademie</b><span>Česká učebnice práce s Claude po malých kouscích: kurzy, kvízy, kartičky, slovníček.</span></div>
+    </a>
+
+    <footer>Data každé aplikace zůstávají jen v prohlížeči.</footer>
+  </main>
+</body>
+</html>
