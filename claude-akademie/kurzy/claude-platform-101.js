@@ -92,9 +92,9 @@ for (const block of response.content) {
             { t: "key", h: `Všechno další v kurzu staví na tomhle vzoru: <code>messages.create</code> s modelem, stropem tokenů a zprávami.` }
           ],
           quiz: [
-            { q: "Co vrací response.content?", o: ["Jeden textový řetězec", "Pole bloků (text, volání nástrojů, thinking), které procházíš a kontroluješ typ", "Počet spotřebovaných tokenů"], a: 1, why: "Odpověď se skládá z bloků různých typů. Text najdeš v blocích typu text." },
+            { q: "Co vrací response.content?", o: ["Jeden textový řetězec", "Počet spotřebovaných tokenů", "Pole bloků (text, volání nástrojů, thinking), které procházíš a kontroluješ typ"], a: 2, why: "Odpověď se skládá z bloků různých typů. Text najdeš v blocích typu text." },
             { q: "Kam patří API klíč?", o: ["Do souboru .env.local mimo správu verzí", "Natvrdo do zdrojového kódu", "Do systémového promptu"], a: 0, why: "Klíče v kódu snadno uniknou, třeba na GitHub. Patří do souboru s proměnnými prostředí." },
-            { q: "Které tři věci zadáváš v každém volání messages.create?", o: ["Model, jazyk a formát", "Jen text otázky", "Model, max_tokens a messages"], a: 2, why: "Model, strop délky odpovědi a seznam zpráv. System je volitelný." }
+            { q: "Které tři věci zadáváš v každém volání messages.create?", o: ["Model, jazyk a formát", "Model, max_tokens a messages", "Jen text otázky"], a: 1, why: "Model, strop délky odpovědi a seznam zpráv. System je volitelný." }
           ],
           cards: [
             { f: "Anatomie požadavku", b: "model + max_tokens + messages (role user nebo assistant), volitelně system." },
@@ -139,9 +139,9 @@ for model in models:
             { t: "tip", title: "Směrování v produkci", h: `Nemusíš vybrat jeden model na všechno. V provozním dashboardu může jeden endpoint pro zpracování dokumentů každý příchozí soubor klasifikovat s <b>Haiku</b>, aktualizace pro klienty psát se <b>Sonnet</b> a jen odpovědi na výběrová řízení (RFP) posílat na <b>Opus</b>. Jedna fronta, tři modely, volba podle úkolu.` }
           ],
           quiz: [
-            { q: "Jak postupovat při výběru modelu?", o: ["Začít u nejschopnějšího a postupně zkoušet levnější", "Udělat eval na 20 až 30 příkladech, začít u Haiku a jít výš, jen když kvalita nestačí", "Vybrat podle toho, co používá konkurence"], a: 1, why: "Hledáš nejlevnější model, jehož výstup bys poslal/a ven. Eval zdola nahoru ho najde nejrychleji." },
+            { q: "Jak postupovat při výběru modelu?", o: ["Začít u nejschopnějšího a postupně zkoušet levnější", "Vybrat podle toho, co používá konkurence", "Udělat eval na 20 až 30 příkladech, začít u Haiku a jít výš, jen když kvalita nestačí"], a: 2, why: "Hledáš nejlevnější model, jehož výstup bys poslal/a ven. Eval zdola nahoru ho najde nejrychleji." },
             { q: "Co vrací response.usage?", o: ["Vstupní a výstupní tokeny, podle kterých se platí", "Seznam dostupných modelů", "Doporučený model pro další volání"], a: 0, why: "Usage ukazuje spotřebu tokenů, ze které se počítá účet." },
-            { q: "Který model se hodí na velké objemy klasifikace a směrování?", o: ["Fable", "Opus", "Haiku"], a: 2, why: "Haiku je nejrychlejší a nejlevnější, optimalizovaný na objem jednoduché práce." }
+            { q: "Který model se hodí na velké objemy klasifikace a směrování?", o: ["Fable", "Haiku", "Opus"], a: 1, why: "Haiku je nejrychlejší a nejlevnější, optimalizovaný na objem jednoduché práce." }
           ],
           cards: [
             { f: "Čtyři úrovně modelů", b: "Fable (nejvyšší schopnosti, nejdražší), Opus (těžké problémy), Sonnet (každodenní produkční práce), Haiku (rychlost a objem)." },
@@ -308,9 +308,9 @@ const finalMessage = await runner;` }
             { t: "p", h: `V produkci je to rozdíl mezi agentem, který najde problémy jeden po druhém, a agentem, který je propojí. Compliance aplikace se zapnutým adaptivním thinking při automatické kontrole uvažuje napříč oddíly posudku a odhalí třeba, že specifikace zatížení větrem v oddílu tři odporuje specifikaci materiálu jinde v dokumentu.` }
           ],
           quiz: [
-            { q: "Kam patří parametr effort?", o: ["Do bloku thinking", "Do output_config", "Do systémového promptu"], a: 1, why: "Častá chyba je dát effort vedle thinking. Patří do output_config." },
-            { q: "Jak na Claude Opus 5 dostaneš shrnutí úvahy do odpovědi?", o: ["V nastavení thinking uvedeš display: summarized", "Nastavíš rozpočet tokenů pro thinking", "Nejde to, úvaha je vždy skrytá"], a: 0, why: "Bez display: summarized zůstává text úvahy skrytý. Rozpočet tokenů se na Opus 5 nevolí." },
-            { q: "U kterého úkolu thinking spíš nezapínat?", o: ["Ladění kódu", "Regulatorní analýza", "Jednoduchá klasifikace tiketů"], a: 2, why: "U jednoduchých úkolů thinking jen přidá latenci a cenu, výsledek nezlepší." }
+            { q: "Kam patří parametr effort?", o: ["Do bloku thinking", "Do systémového promptu", "Do output_config"], a: 2, why: "Častá chyba je dát effort vedle thinking. Patří do output_config." },
+            { q: "Jak na Claude Opus 5 dostaneš shrnutí úvahy do odpovědi?", o: ["Nastavíš rozpočet tokenů pro thinking", "V nastavení thinking uvedeš display: summarized", "Nejde to, úvaha je vždy skrytá"], a: 1, why: "Bez display: summarized zůstává text úvahy skrytý. Rozpočet tokenů se na Opus 5 nevolí." },
+            { q: "U kterého úkolu thinking spíš nezapínat?", o: ["Jednoduchá klasifikace tiketů", "Ladění kódu", "Regulatorní analýza"], a: 0, why: "U jednoduchých úkolů thinking jen přidá latenci a cenu, výsledek nezlepší." }
           ],
           cards: [
             { f: "Extended thinking", b: "Claude před odpovědí promyslí problém krok za krokem. Na Opus 5 je adaptivní a ve výchozím stavu zapnuté." },
@@ -468,8 +468,8 @@ response = client.messages.create(
           ],
           quiz: [
             { q: "Proč pro službu třetí strany použít MCP místo vlastního nástroje?", o: ["MCP je vždy rychlejší", "Integraci udržuje poskytovatel služby, při změně jeho API neměníš nic", "MCP nepotřebuje autentizaci"], a: 1, why: "MCP řeší hlavně údržbu: server publikuje a aktualizuje poskytovatel." },
-            { q: "K čemu je v požadavku položka typu mcp_toolset?", o: ["Určuje, které nástroje MCP serveru smí Claude použít", "Deklaruje URL serveru", "Zapíná thinking"], a: 0, why: "Spojení deklaruje mcp_servers, přístup k nástrojům povoluje mcp_toolset." },
-            { q: "Jak udělat ze Slack MCP serveru server jen pro čtení?", o: ["Nepřidat token", "Odebrat server z mcp_servers", "V default_config vše vypnout a v configs povolit jen search_messages a list_channels"], a: 2, why: "Vzor „vše vypnout, vybrané povolit“ omezí Claude na čtecí nástroje." }
+            { q: "K čemu je v požadavku položka typu mcp_toolset?", o: ["Deklaruje URL serveru", "Určuje, které nástroje MCP serveru smí Claude použít", "Zapíná thinking"], a: 1, why: "Spojení deklaruje mcp_servers, přístup k nástrojům povoluje mcp_toolset." },
+            { q: "Jak udělat ze Slack MCP serveru server jen pro čtení?", o: ["V default_config vše vypnout a v configs povolit jen search_messages a list_channels", "Nepřidat token", "Odebrat server z mcp_servers"], a: 0, why: "Vzor „vše vypnout, vybrané povolit“ omezí Claude na čtecí nástroje." }
           ],
           cards: [
             { f: "Tools, skills, MCP", b: "Tools: tvoje věci. Skills: tvoje procesy. MCP: věci všech ostatních, údržbu nese poskytovatel." },
@@ -508,8 +508,8 @@ response = client.messages.create(
           ],
           quiz: [
             { q: "Co se stane, když se kontextové okno zaplní?", o: ["Claude zapomene systémový prompt", "Požadavek selže", "API přepne na větší model"], a: 1, why: "Kontext není nekonečný. Po zaplnění okna požadavek selže, proto se kontext spravuje." },
-            { q: "Který ze čtyř vzorů je návrhový vzor, ne funkce API?", o: ["Just-in-time kontext", "Prompt caching", "Serverová kompakce"], a: 0, why: "Just-in-time je rozhodnutí, co a kdy načítáš. Ostatní tři jsou funkce API." },
-            { q: "Kdo u memory tool implementuje úložiště?", o: ["Anthropic", "Nikdo, paměť je v modelu", "Ty, na straně klienta"], a: 2, why: "Claude jen volá nástroj. Kde a jak se paměť ukládá, je na tobě." }
+            { q: "Který ze čtyř vzorů je návrhový vzor, ne funkce API?", o: ["Prompt caching", "Serverová kompakce", "Just-in-time kontext"], a: 2, why: "Just-in-time je rozhodnutí, co a kdy načítáš. Ostatní tři jsou funkce API." },
+            { q: "Kdo u memory tool implementuje úložiště?", o: ["Ty, na straně klienta", "Anthropic", "Nikdo, paměť je v modelu"], a: 0, why: "Claude jen volá nástroj. Kde a jak se paměť ukládá, je na tobě." }
           ],
           cards: [
             { f: "Čtyři vzory správy kontextu", b: "Just-in-time kontext, serverová kompakce, prompt caching, memory tool." },
@@ -560,8 +560,8 @@ Rubrika: Lighthouse skóre nad 90, žádné zdroje blokující vykreslení, vše
           ],
           quiz: [
             { q: "Kde běží agentní smyčka u Claude Managed Agents?", o: ["Na tvém serveru", "Na infrastruktuře Anthropic, v izolovaném kontejneru", "V prohlížeči uživatele"], a: 1, why: "Managed agents berou známou smyčku a hostují ji za tebe." },
-            { q: "Co dělá grader v příkladu s Kanbanem?", o: ["Ve vlastním kontextovém okně hodnotí výstup podle rubriky a Claude podle zpětné vazby opravuje", "Spouští Lighthouse", "Schvaluje zprávy do Slacku"], a: 0, why: "Outcomes = rubrika (co je hotovo) a samostatný hodnotitel, který ji kontroluje." },
-            { q: "K čemu slouží permission policy v příkladu s incidentem?", o: ["Zrychlí diagnózu", "Rozdělí práci mezi specialisty", "Citlivé akce, jako zpráva do Slacku, čekají na schválení člověkem"], a: 2, why: "Citlivé akce počkají, až je člověk schválí." }
+            { q: "Co dělá grader v příkladu s Kanbanem?", o: ["Spouští Lighthouse", "Schvaluje zprávy do Slacku", "Ve vlastním kontextovém okně hodnotí výstup podle rubriky a Claude podle zpětné vazby opravuje"], a: 2, why: "Outcomes = rubrika (co je hotovo) a samostatný hodnotitel, který ji kontroluje." },
+            { q: "K čemu slouží permission policy v příkladu s incidentem?", o: ["Zrychlí diagnózu", "Citlivé akce, jako zpráva do Slacku, čekají na schválení člověkem", "Rozdělí práci mezi specialisty"], a: 1, why: "Citlivé akce počkají, až je člověk schválí." }
           ],
           cards: [
             { f: "Claude Managed Agents", b: "Sada API pro agenty ve velkém: agentní smyčka hostovaná Anthropic v izolovaném kontejneru se soubory, bashem a web search." },
@@ -615,13 +615,13 @@ session = client.beta.sessions.create(
             break                                   # agent stojí a čeká` }
             ], note: `Stream doručuje jen události, které nastanou po jeho otevření, proto ho <b>otevři před odesláním zadání</b>. Všimni si množného čísla <code>events</code>: v tomhle API teče všechno jako události. Po spuštění vidíš, jak agent nahlas uvažuje, jaké nástroje vybírá, a finální odpověď (soubor má 3 řádky). Všechno běží v kontejneru Anthropic.` },
             { t: "warn", h: `Ukázka končí u první události <code>session.status_idle</code>. Ve vlastní aplikaci se před tím, než práci prohlásíš za hotovou, podívej na <code>event.stop_reason.type</code>: <code>end_turn</code> znamená, že agent dokončil tah (nebo jsi ho přerušil/a), <code>requires_action</code>, že volání nástroje čeká na tvou odpověď.` },
-            { t: "p", h: `Spolu se smyčkou delegovat i sandbox a obnovitelnost. Historie událostí je uložená na serveru: když spojení spadne, otevřeš nový stream, vypíšeš minulé události, abys viděl/a, co ti uteklo, a přeskočíš živé události, které už seznam vrátil. Typické použití jsou dlouhé úlohy se soubory typu „uklidni tohle“, třeba úklid sdíleného disku: agent podle specifikace struktury roztřídí tisíce souborů do projektových složek, archivuje duplikáty a prázdné soubory a označí, co nedokáže s jistotou zařadit.` },
+            { t: "p", h: `Spolu se smyčkou deleguješ i sandbox a obnovitelnost. Historie událostí je uložená na serveru: když spojení spadne, otevřeš nový stream, vypíšeš minulé události, abys viděl/a, co ti uteklo, a přeskočíš živé události, které už seznam vrátil. Typické použití jsou dlouhé úlohy se soubory typu „uklidni tohle“, třeba úklid sdíleného disku: agent podle specifikace struktury roztřídí tisíce souborů do projektových složek, archivuje duplikáty a prázdné soubory a označí, co nedokáže s jistotou zařadit.` },
             { t: "tip", h: `Po managed agentovi sáhni, když by smyčka běžela moc dlouho, dělala moc věcí nebo musela přežít výpadek. Ruční smyčku si nech, když chceš plnou kontrolu.` }
           ],
           quiz: [
-            { q: "Proč otevřít event stream před odesláním zadání?", o: ["Kvůli rychlosti", "Stream doručuje jen události, které nastanou po jeho otevření", "Bez streamu nejde vytvořit session"], a: 1, why: "Kdybys zadání poslal/a dřív, první události by ti utekly." },
-            { q: "Co je session?", o: ["Jeden běh agenta v daném prostředí, jednotka práce", "Definice modelu, promptu a nástrojů", "Nastavení sítě sandboxu"], a: 0, why: "Definice je agent, nastavení sítě je environment. Session je konkrétní běh." },
-            { q: "Co znamená stop_reason.type requires_action?", o: ["Agent dokončil práci", "Spojení spadlo", "Volání nástroje čeká na odpověď od tebe"], a: 2, why: "end_turn znamená dokončený tah, requires_action čekání na tvou odpověď." }
+            { q: "Proč otevřít event stream před odesláním zadání?", o: ["Stream doručuje jen události, které nastanou po jeho otevření", "Kvůli rychlosti", "Bez streamu nejde vytvořit session"], a: 0, why: "Kdybys zadání poslal/a dřív, první události by ti utekly." },
+            { q: "Co je session?", o: ["Definice modelu, promptu a nástrojů", "Nastavení sítě sandboxu", "Jeden běh agenta v daném prostředí, jednotka práce"], a: 2, why: "Definice je agent, nastavení sítě je environment. Session je konkrétní běh." },
+            { q: "Co znamená stop_reason.type requires_action?", o: ["Agent dokončil práci", "Volání nástroje čeká na odpověď od tebe", "Spojení spadlo"], a: 1, why: "end_turn znamená dokončený tah, requires_action čekání na tvou odpověď." }
           ],
           cards: [
             { f: "Čtyři primitiva managed agents", b: "Agent (model, prompt, nástroje; opakovaně použitelný), Environment (kde běží), Session (jeden běh), Events (vše, co teče dovnitř a ven)." },
