@@ -7,6 +7,7 @@ AKADEMIE.add({
   level: "Začátečník, pro týmy ve Slacku",
   desc: "Claude Tag (beta) přináší Claude do týmového Slacku: kde mu předat práci, jak ho řídit a opravovat a jaké návyky pomohou týmu dostat z něj víc.",
   source: "https://academy.claude.com/courses/introduction-to-claude-tag",
+  added: "2026-11-01",
   modules: [
     {
       title: "Začínáme s Claude Tag",

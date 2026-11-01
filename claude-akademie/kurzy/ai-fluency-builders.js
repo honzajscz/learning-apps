@@ -8,6 +8,7 @@ AKADEMIE.add({
   level: "Pro tvůrce produktů a vývojáře",
   desc: "Rámec 4D v praxi lidí, kteří vlastní cestu od problému k dodanému řešení: sada nástrojů tvůrce, akceptační testy, řetězec popisu, pět pohledů rozlišování a odpovědné vydání. Celým kurzem prochází projekt čekací doby na klinice.",
   source: "https://academy.claude.com/courses/ai-fluency-for-builders",
+  added: "2026-11-01",
   modules: [
     {
       title: "Úvod a rámec AI zběhlosti",

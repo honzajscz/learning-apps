@@ -3,7 +3,7 @@
    bez připojení poslední stažená kopie. GitHub Pages posílá soubory s max-age=600,
    proto se mezipaměť prohlížeče obchází (jinak by se nová verze projevila až po
    10 minutách). Při změně souborů zvyš verzi cache. */
-const CACHE = "claude-akademie-v3";
+const CACHE = "claude-akademie-v4";
 
 const ASSETS = [
   "./",
@@ -19,6 +19,11 @@ const ASSETS = [
   "./kurzy/mcp.js",
   "./kurzy/subagenti.js",
   "./kurzy/skills.js",
+  "./kurzy/ai-fluency-builders.js",
+  "./kurzy/tymy-lidi-a-agentu.js",
+  "./kurzy/claude-code-v-akci.js",
+  "./kurzy/claude-tag.js",
+  "./kurzy/claude-platform-101.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",

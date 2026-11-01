@@ -8,6 +8,7 @@ AKADEMIE.add({
   level: "Pro vedoucí týmů, netechnicky",
   desc: "Proč přejít od AI „pro jednoho hráče“ k agentovi sdílenému celým týmem a jak na to tým připravit: jasné role, zapsaný cíl, postupně budovaná důvěra a kontrolní seznam na první dva týdny. Originál je zatím ve verzi beta.",
   source: "https://academy.claude.com/courses/building-effective-human-agent-teams",
+  added: "2026-11-01",
   modules: [
     {
       title: "Přechod na AI pro více hráčů",

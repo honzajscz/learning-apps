@@ -31,7 +31,11 @@ Přesunuto z repozitáře `workouts`; stará adresa https://honzajscz.github.io/
 
 ## Claude Akademie
 
-- 8 kurzů, 83 lekcí po 3 až 6 minutách; praktická cvičení z originálu nahrazena komentovanými ukázkami
+- 13 kurzů, 130 lekcí po 3 až 6 minutách; praktická cvičení z originálu nahrazena komentovanými ukázkami
+- v listopadu 2026 přibylo 5 kurzů (Claude Code v akci, Úvod do Claude Tag, Claude Platform 101,
+  AI zběhlost pro tvůrce produktů, Týmy lidí a agentů); nové kurzy mají 60 dní štítek „nové“ (pole `added`)
+- z katalogu Claude Academy záměrně chybí velké vývojářské kurzy (Claude API, Amazon Bedrock, Google Cloud),
+  varianty AI Fluency pro konkrétní skupiny (učitelé, studenti, neziskovky, malé firmy, kreativci) a nasazení Claude Enterprise
 - kontrolní otázky s vysvětlením, kartičky s rozloženým opakováním, rychlý test, slovníček
 - denní cíl, série dní, heatmapa, odznaky, poznámky, záložky, předčítání nahlas
 - offline režim, export/import pokroku (data zůstávají v prohlížeči)

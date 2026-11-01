@@ -5,6 +5,7 @@
    Formát kurzu:
    { id, emoji, title, category ("start" | "produkty" | "fluency"),
      level, desc, source (odkaz na originál v Claude Academy),
+     added? ("YYYY-MM-DD", kdy kurz přibyl; 60 dní má v seznamu štítek „nové“),
      modules: [ { title, lessons: [ lekce ] } ] }
 
    Formát lekce:

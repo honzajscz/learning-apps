@@ -4,7 +4,7 @@
    ========================================================= */
 "use strict";
 
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 const STORAGE_KEY = "claude-akademie.v1";
 const EXPORT_APP_ID = "claude-akademie";
 
@@ -126,7 +126,7 @@ const COURSES = AKADEMIE.courses;
 const CATEGORIES = [
   { id: "start", title: "Začni tady", desc: "Základy pro každého, bez technických znalostí." },
   { id: "fluency", title: "Staň se AI zběhlým", desc: "Jak přemýšlet o spolupráci s AI a jak jí důvěřovat správně." },
-  { id: "produkty", title: "Poznej produkty", desc: "Koncepty Claude Code, Cowork, MCP, subagentů a skills." }
+  { id: "produkty", title: "Poznej produkty", desc: "Claude Code, Cowork, Claude Tag, MCP, subagenti, skills a stavění na Claude Platform." }
 ];
 
 const LESSONS = [];       // ploché pořadí všech lekcí
@@ -940,7 +940,7 @@ function viewMore(view) {
     <div class="section-title">O aplikaci</div>
     <div class="card small muted">
       <p>Česká učebnice Claude po malých kouscích, zpracovaná podle kurzů <a href="https://academy.claude.com/" target="_blank" rel="noopener">Claude Academy</a>. Původní kurzy jsou v angličtině a obsahují praktická cvičení. Zde jsou cvičení nahrazena podrobnými ukázkami, aby šlo vše projít jen čtením, třeba v tramvaji.</p>
-      <p>Názvy tlačítek a umístění funkcí v aplikacích Claude se časem mění. Popisy odpovídají stavu v době psaní (září 2026). Podstata, tedy jak s Claude pracovat, aby to fungovalo, platí dál.</p>
+      <p>Názvy tlačítek a umístění funkcí v aplikacích Claude se časem mění. Popisy odpovídají stavu v době psaní (září a listopad 2026). Podstata, tedy jak s Claude pracovat, aby to fungovalo, platí dál.</p>
       <p class="mb0">Verze ${APP_VERSION}. Data neopouštějí tvůj prohlížeč.</p>
     </div>`;
 

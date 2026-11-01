@@ -7,6 +7,7 @@ AKADEMIE.add({
   level: "Pro vývojáře, od prvního volání API",
   desc: "Jak stavět na Claude Platform: první volání API, výběr modelu, agentní smyčka, nástroje a thinking, vestavěné nástroje, skills, MCP, správa kontextu a managed agents. Krátké ukázky kódu, důraz na pochopení.",
   source: "https://academy.claude.com/courses/claude-platform-101",
+  added: "2026-11-01",
   modules: [
     {
       title: "Co je Claude Platform",

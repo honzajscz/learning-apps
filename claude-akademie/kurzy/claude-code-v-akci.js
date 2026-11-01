@@ -7,6 +7,7 @@ AKADEMIE.add({
   level: "Pokročilý, navazuje na Claude Code 101",
   desc: "Dlouhá a méně hlídaná práce s Claude Code, které můžeš věřit: řízení dlouhých sezení, CLAUDE.md, ověřovací skills, režimy oprávnění a hooks, routines a headless režim, GitHub Actions, ověřování běhů bez dohledu a pluginy pro celý tým.",
   source: "https://academy.claude.com/courses/claude-code-in-action",
+  added: "2026-11-01",
   modules: [
     {
       title: "Řízení práce",
