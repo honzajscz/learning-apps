@@ -4,13 +4,13 @@
    ========================================================= */
 "use strict";
 
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "1.1.0";
 const STORAGE_KEY = "claude-akademie.v1";
 const EXPORT_APP_ID = "claude-akademie";
 
 /* ---------------- úložiště ---------------- */
 
-const DEFAULT_SETTINGS = { theme: "auto", fs: "m", goal: 2, tts: true };
+const DEFAULT_SETTINGS = { theme: "auto", fs: "m", goal: 2, tts: true, hideInstall: false };
 
 const store = {
   done: {},        // lessonId -> ISO datum dokončení
@@ -331,6 +331,8 @@ function viewToday(view) {
       <span class="chip">${doneCount}/${LESSONS.length} lekcí</span></div>
     </div></div></div>`;
 
+  if (!isInstalled() && !store.settings.hideInstall) html += installCardHtml(true);
+
   if (next) {
     html += `<div class="section-title">${store.last && !store.done[store.last] ? "Pokračovat" : "Další lekce"}</div>
       <a class="item next" href="#/lekce/${next.id}">
@@ -371,6 +373,107 @@ function viewToday(view) {
   });
   html += `</div>`;
   view.innerHTML = html;
+  bindInstall(view);
+}
+
+/* ---------------- přidání na plochu a aktualizace ---------------- */
+
+// Chrome (Android, počítač) nabídne vlastní instalační dialog; událost si schováme pro tlačítko
+let installPrompt = null;
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  installPrompt = e;
+  if (/^(#\/?|#\/vice)?$/.test(location.hash)) render();
+});
+window.addEventListener("appinstalled", () => {
+  installPrompt = null;
+  toast("✅ Akademie je na ploše");
+  if (/^(#\/?|#\/vice)?$/.test(location.hash)) render();
+});
+
+function isInstalled() {
+  return matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+}
+
+function devicePlatform() {
+  const ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) return "ios";
+  if (/Android/.test(ua)) return "android";
+  return "desktop";
+}
+
+function installStepsHtml() {
+  const p = devicePlatform();
+  if (p === "ios") return `<ol class="steps small">
+    <li>Otevři tuto stránku v <b>Safari</b>.</li>
+    <li>Ťukni na <b>Sdílet</b> (čtvereček se šipkou nahoru).</li>
+    <li>Zvol <b>Přidat na plochu</b> a potvrď <b>Přidat</b>.</li></ol>`;
+  if (p === "android") return `<ol class="steps small">
+    <li>Otevři tuto stránku v <b>Chrome</b>.</li>
+    <li>Ťukni na <b>⋮</b> vpravo nahoře.</li>
+    <li>Zvol <b>Přidat na plochu</b> (nebo <b>Nainstalovat aplikaci</b>) a potvrď <b>Instalovat</b>.</li></ol>`;
+  return `<ol class="steps small">
+    <li>V Chrome nebo Edge klikni na ikonu instalace vpravo v adresním řádku.</li>
+    <li>Potvrď <b>Instalovat</b>.</li></ol>`;
+}
+
+// compact = karta na stránce Dnes (s tlačítkem „Teď ne“), jinak karta ve Více
+function installCardHtml(compact) {
+  if (isInstalled()) {
+    return `<div class="card"><h2>📲 Na ploše</h2><p class="muted small mb0">Akademie běží jako samostatná appka z ikony na ploše.</p></div>`;
+  }
+  const buttons = (installPrompt ? `<button class="btn primary" data-install>Přidat na plochu</button>` : "") +
+    (compact ? `<button class="btn ghost" data-install-hide>Teď ne</button>` : "");
+  return `<div class="card">
+    <h2>📲 Přidej si Akademii na plochu</h2>
+    <p class="muted small">Otevře se jako samostatná appka, funguje offline a prohlížeč jí data jen tak nesmaže.
+      Starou ikonu Akademie z doby před přesunem můžeš z plochy smazat.</p>
+    ${installPrompt ? "" : installStepsHtml()}
+    ${buttons ? `<div class="btn-row">${buttons}</div>` : ""}
+  </div>`;
+}
+
+function bindInstall(view) {
+  view.querySelectorAll("[data-install]").forEach(b => b.onclick = async () => {
+    if (!installPrompt) return;
+    const ev = installPrompt;
+    installPrompt = null;
+    try {
+      ev.prompt();
+      await ev.userChoice;
+    } catch { /* prohlížeč dialog odmítl zobrazit */ }
+    render();
+  });
+  view.querySelectorAll("[data-install-hide]").forEach(b => b.onclick = () => {
+    store.settings.hideInstall = true;
+    saveStore();
+    render();
+    toast("Návod najdeš kdykoli ve Více");
+  });
+}
+
+function refreshApp() {
+  toast("Obnovuji aplikaci…");
+  // prohlížeč někdy na kontrolu aktualizace vůbec neodpoví, tak nečekat donekonečna
+  const within = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
+  const files = ["./", "index.html", "styles.css", "manifest.webmanifest",
+    ...[...document.scripts].map(s => s.getAttribute("src")).filter(Boolean)];
+  (async () => {
+    try {
+      if ("serviceWorker" in navigator) {
+        const reg = await within(navigator.serviceWorker.getRegistration(), 3000);
+        if (reg) await within(reg.update(), 4000);
+      }
+      // stáhnout appku znovu mimo mezipaměť prohlížeče (funguje i se starým service workerem)
+      await within(Promise.all(files.map(u => fetch(u, { cache: "reload" }).catch(() => {}))), 8000);
+      if (window.caches) {
+        // jen vlastní cache: na stejné doméně běží i jiné appky
+        const keys = await within(caches.keys(), 3000) || [];
+        for (const k of keys) if (k.startsWith("claude-akademie-")) await within(caches.delete(k), 3000);
+      }
+    } catch { /* ignore */ }
+    location.reload();
+  })();
 }
 
 /* ---------------- Kurzy ---------------- */
@@ -812,6 +915,14 @@ function viewMore(view) {
       <select id="set-tts"><option value="1">Zapnuto</option><option value="0">Vypnuto</option></select>
     </div>
 
+    <div class="section-title">Aplikace</div>
+    ${installCardHtml(false)}
+    <div class="card">
+      <h2>🔄 Aktualizace</h2>
+      <p class="muted small">Verze ${APP_VERSION}. Novinky se stahují samy při otevření s připojením. Kdyby appka vypadala zastarale, ťukni sem. Pokrok se nesmaže, jen se znovu stáhnou soubory aplikace.</p>
+      <button class="btn block" id="btn-refresh">Obnovit aplikaci</button>
+    </div>
+
     <div class="section-title">Záloha dat</div>
     <div class="card">
       <p class="muted small">Pokrok je uložený jen v tomto prohlížeči. Pro přenos na jiné zařízení použij export a import.</p>
@@ -837,6 +948,8 @@ function viewMore(view) {
   const t = document.getElementById("set-tts"); t.value = s.tts ? "1" : "0";
   t.onchange = () => { s.tts = t.value === "1"; saveStore(); };
 
+  bindInstall(view);
+  document.getElementById("btn-refresh").onclick = refreshApp;
   document.getElementById("btn-export").onclick = exportFile;
   document.getElementById("btn-copy").onclick = async () => {
     try { await navigator.clipboard.writeText(exportJson()); toast("Zkopírováno do schránky"); }

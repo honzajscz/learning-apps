@@ -35,6 +35,8 @@ Přesunuto z repozitáře `workouts`; stará adresa https://honzajscz.github.io/
 - kontrolní otázky s vysvětlením, kartičky s rozloženým opakováním, rychlý test, slovníček
 - denní cíl, série dní, heatmapa, odznaky, poznámky, záložky, předčítání nahlas
 - offline režim, export/import pokroku (data zůstávají v prohlížeči)
+- karta „Přidat na plochu“ (v Chrome rovnou instalační dialog, jinde návod pro Android, iPhone a počítač)
+  a tlačítko „Obnovit aplikaci“ ve Více
 
 Obsah lekcí je v `claude-akademie/kurzy/*.js`, formát je popsaný v `kurzy/_index.js`.
 Po změně souborů zvyš verzi cache v `claude-akademie/sw.js`.

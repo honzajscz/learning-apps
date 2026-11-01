@@ -1,7 +1,9 @@
 /* Service worker Claude Akademie: po prvním načtení funguje appka i offline.
    Strategie network-first: s připojením se vždy načte nejnovější verze,
-   bez připojení poslední stažená kopie. Při změně souborů zvyš verzi cache. */
-const CACHE = "claude-akademie-v2";
+   bez připojení poslední stažená kopie. GitHub Pages posílá soubory s max-age=600,
+   proto se mezipaměť prohlížeče obchází (jinak by se nová verze projevila až po
+   10 minutách). Při změně souborů zvyš verzi cache. */
+const CACHE = "claude-akademie-v3";
 
 const ASSETS = [
   "./",
@@ -27,7 +29,7 @@ const ASSETS = [
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE)
-      .then(cache => cache.addAll(ASSETS))
+      .then(cache => cache.addAll(ASSETS.map(u => new Request(u, { cache: "reload" }))))
       .then(() => self.skipWaiting())
   );
 });
@@ -50,7 +52,9 @@ self.addEventListener("fetch", event => {
   const cacheKey = req.mode === "navigate" ? "./index.html" : req;
 
   event.respondWith(
-    fetch(req)
+    // navigaci nejde přepsat parametry; ostatní soubory se ověří u serveru (při shodě jen 304),
+    // pokud si stránka sama neřekla o jiný režim (např. „reload“ z tlačítka Obnovit aplikaci)
+    fetch(req.mode === "navigate" || req.cache !== "default" ? req : new Request(req, { cache: "no-cache" }))
       .then(res => {
         if (res && res.ok) {
           const copy = res.clone();
