@@ -14,36 +14,32 @@ AKADEMIE.add({
         {
           id: "cca-01",
           title: "Řízení dlouhých sezení",
-          minutes: 6,
-          lead: `Krátký úkol zadáš a zkontroluješ. Refaktor přes tucet souborů ale může trvat hodiny a každé ruční postrčení ho prodlužuje. Pomůžou dva zvyky: vymezit práci, než Claude začne, a řídit ji, zatímco běží.`,
+          minutes: 5,
+          lead: `Refaktor přes tucet souborů může trvat hodiny a každé ruční postrčení ho prodlužuje. Pomůžou dva zvyky: vymezit práci, než Claude začne, a řídit ji, zatímco běží.`,
           blocks: [
-            { t: "h", x: "Nejdřív vymez práci v Plan mode" },
-            { t: "p", h: `Plan mode znáš z Claude Code 101: Claude zkoumá kód, ale needituje zdrojové soubory. Přečte, co potřebuje, zjistí, co se musí změnit, a předloží plán. U dlouhé úlohy na tom stojí všechno, proto plán <b>opravdu přečti</b>, ne jen proleť. Čím důkladnější plán, tím méně překvapení během provádění. Co chybí nebo nesedí, nech doplnit. Iterovat nad plánem je mnohem rychlejší než nechat Claude běžet a pak uklízet.` },
+            { t: "p", h: `<b>Nejdřív vymez práci v Plan mode.</b> Ten znáš z Claude Code 101: Claude prozkoumá kód, nic needituje a předloží plán. U dlouhé úlohy na plánu stojí všechno, proto ho <b>opravdu přečti</b>, ne jen proleť, a co chybí, nech doplnit. Iterovat nad plánem je mnohem rychlejší než po běhu uklízet.` },
             { t: "h", x: "Za běhu: řízená kompakce a rewind" },
             { t: "cmp",
               bad: { lbl: "Holá kompakce", h: `<code>/compact</code><br>Shrnutí nahradí staré zprávy. Když se v něm ztratí něco důležitého, Claude začne odbočovat.` },
-              good: { lbl: "Řízená kompakce", h: `<code>/compact Soustřeď se na implementaci přepínače --version</code><br>Co napíšeš za příkaz, určí, co shrnutí zachová. Ladění skončilo dávno a teď tě zajímá jen tahle funkce? Řekni to. Je to tvůj volant pro kontext.` } },
-            { t: "p", h: `Když Claude zamíří špatně, nemusíš se z toho vyprošťovat dalšími prompty. Každý tvůj prompt vytvoří <b>checkpoint</b>, ke kterému se dá vrátit. Menu Rewind otevřeš <b>dvojím stiskem Esc</b> na prázdném promptu.` },
-            { t: "table", head: ["Volba v menu Rewind", "Co udělá"], rows: [
-              ["Restore code and conversation", "Vrátí kód i rozhovor najednou."],
-              ["Restore conversation", "Vrátí jen rozhovor."],
-              ["Restore code", "Vrátí jen soubory."],
-              ["Summarize from here", "Shrne vše <b>po</b> checkpointu. Hodí se po vedlejší odbočce, když chceš uvolnit místo."],
-              ["Summarize up to here", "Shrne vše <b>před</b> checkpointem. Hodí se po dlouhé přípravě, kterou chceš zhustit, zatímco implementace zůstane celá."]
+              good: { lbl: "Řízená kompakce", h: `<code>/compact Soustřeď se na implementaci přepínače --version</code><br>Co napíšeš za příkaz, určí, co shrnutí zachová. Je to tvůj volant pro kontext.` } },
+            { t: "p", h: `Když Claude zamíří špatně, nevyprošťuj se dalšími prompty. Každý tvůj prompt vytvoří <b>checkpoint</b>. Menu Rewind otevřeš <b>dvojím stiskem Esc</b> na prázdném promptu a vybereš, co vrátit:` },
+            { t: "table", head: ["Volba", "Co udělá"], rows: [
+              ["Restore code and conversation", "Vrátí kód i rozhovor."],
+              ["Restore conversation, Restore code", "Vrátí jen rozhovor, nebo jen soubory."],
+              ["Summarize from here", "Shrne vše <b>po</b> checkpointu, třeba vedlejší odbočku, a uvolní místo."],
+              ["Summarize up to here", "Shrne vše <b>před</b> checkpointem, třeba dlouhou přípravu. Implementace zůstane celá."]
             ] },
-            { t: "h", x: "Když má Claude běžet sám: /goal a /loop" },
-            { t: "table", head: ["Příkaz", "Co dělá", "Jak ho zastavit"], rows: [
-              ["<code>/goal</code>", "Nastaví podmínku dokončení. Claude pracuje přes více tahů, dokud rychlý hodnotitel (evaluator) nepotvrdí, že je splněná. Nezastaví se hned, jak si poprvé myslí, že je hotovo.<br>Příklad: <code>/goal všechny testy v src/billing projdou a typová kontrola hlásí nula chyb</code>", "<code>/goal clear</code>"],
-              ["<code>/loop</code>", "Spouští prompt v intervalu mezi tahy, pevném, nebo takovém, jaký si určí Claude (self-paced). Hodí se k hlídání něčeho venku, třeba běhu CI nebo nasazení, a k reakci, když se změní stav.", "Self-paced smyčku zastavíš klávesou Esc, když čeká na další běh. Smyčka s pevným intervalem běží, dokud Claude nepožádáš o zrušení, nebo 7 dní."]
+            { t: "h", x: "Když má Claude běžet sám" },
+            { t: "table", head: ["Příkaz", "Co dělá"], rows: [
+              ["<code>/goal</code>", "Nastaví podmínku dokončení. Claude pracuje přes více tahů, dokud ji rychlý hodnotitel (evaluator) nepotvrdí, například <code>/goal všechny testy v src/billing projdou a typová kontrola hlásí nula chyb</code>. Hodnotitel čte <b>jen přepis rozhovoru</b>, takže splnění musí být vidět ve výstupu, třeba ve výsledku testů. Zrušíš ho příkazem <code>/goal clear</code>."],
+              ["<code>/loop</code>", "Spouští prompt v intervalu mezi tahy, pevném, nebo takovém, jaký si určí Claude (self-paced). Hlídá něco venku, třeba běh CI nebo nasazení, a reaguje na změnu stavu. Self-paced smyčku zastavíš klávesou Esc, když čeká na další běh. Smyčka s pevným intervalem běží, dokud nepožádáš Claude o zrušení, nebo 7 dní."]
             ] },
-            { t: "warn", h: `Hodnotitel u <code>/goal</code> čte <b>jen přepis rozhovoru</b>. Podmínka proto musí jít ověřit z výstupu, který Claude skutečně vyprodukuje, například z výsledku běhu testů. Cíl si nastav, když umíš popsat „hotovo“ líp než jednotlivé kroky.` },
-            { t: "h", x: "Paralelní práce ve worktrees" },
-            { t: "p", h: `Dvě sezení Claude nad stejnými soubory si šlapou po změnách a vznikají konflikty. Ve <b>worktree</b> dostane každé sezení vlastní nezávislý strom souborů, takže si práci nepřepisují. Když sezení skončí, čistý worktree se automaticky odstraní. Soubor <code>.worktreeinclude</code> v kořeni repozitáře vyjmenuje soubory ignorované gitem, které se mají zkopírovat do každého worktree, třeba soubor s proměnnými prostředí nebo lokální konfiguraci, kterou necommituješ.` }
+            { t: "p", h: `<b>Paralelně ve worktrees.</b> Dvě sezení nad stejnými soubory si přepisují změny. Ve <b>worktree</b> má každé sezení vlastní nezávislý strom souborů a po jeho skončení se čistý worktree sám odstraní. Soubor <code>.worktreeinclude</code> v kořeni repozitáře vyjmenuje soubory ignorované gitem, které se mají do každého worktree zkopírovat, třeba proměnné prostředí nebo lokální konfiguraci.` }
           ],
           quiz: [
             { q: "Claude ti v Plan mode připravil plán dlouhé úlohy. Co s ním?", o: ["Proletíš ho a pustíš Claude do práce, chyby se opraví za běhu", "Pečlivě ho přečteš a necháš doplnit, co chybí, než Claude začne", "Přeskočíš ho, Plan mode je jen pro malé úlohy"], a: 1, why: "Iterovat nad plánem je mnohem rychlejší než uklízet po běhu, který šel špatným směrem." },
             { q: "Jak otevřeš menu Rewind?", o: ["Dvojím stiskem Esc na prázdném promptu", "Příkazem /compact", "Klávesami Shift+Tab"], a: 0, why: "Dvojí Esc na prázdném promptu otevře menu s checkpointy. Každý tvůj prompt jeden checkpoint vytvoří." },
-            { q: "Proč musí jít podmínka pro /goal ověřit z výstupu, třeba z výsledku testů?", o: ["Protože /goal funguje jen s testy", "Protože jinak /goal po 7 dnech skončí", "Protože hodnotitel čte jen přepis rozhovoru, splnění tedy musí být vidět v tom, co Claude vypíše"], a: 2, why: "Hodnotitel nevidí nic mimo přepis. Podmínku jako „kód je přehledný“ z něj nepozná." }
+            { q: "Proč musí jít podmínka pro /goal ověřit z výstupu, třeba z výsledku testů?", o: ["Protože /goal funguje jen s testy", "Protože jinak /goal po 7 dnech skončí", "Protože hodnotitel čte jen přepis rozhovoru a nic jiného nevidí"], a: 2, why: "Podmínku jako „kód je přehledný“ hodnotitel z přepisu nepozná. Výsledek testů ano." }
           ],
           cards: [
             { f: "Řízená kompakce", b: "Za /compact napiš, na co se má shrnutí soustředit. Jinak se v něm může ztratit to důležité." },
@@ -63,34 +59,34 @@ AKADEMIE.add({
         {
           id: "cca-02",
           title: "CLAUDE.md, který Claude dodržuje",
-          minutes: 6,
+          minutes: 5,
           lead: `CLAUDE.md není vynucovaná konfigurace, ale vodítko. Každý řádek soupeří o pozornost se všemi ostatními. Čím štíhlejší soubor, tím víc z něj Claude opravdu dodrží.`,
           blocks: [
-            { t: "p", h: `Past, do které spadne skoro každý: narazíš na problém, přidáš pravidlo. Narazíš na další, přidáš další. Za chvíli máš obří soubor a Claude začne jeho části ignorovat. To není chyba Claude, tak ten soubor funguje. Cílem proto není zapsat všechno, ale udržet soubor sevřený.` },
+            { t: "p", h: `Past, do které spadne skoro každý: problém, nové pravidlo. Další problém, další pravidlo. Za chvíli máš obří soubor a Claude začne jeho části ignorovat. To není chyba Claude, tak ten soubor funguje. Cílem proto není zapsat všechno, ale udržet soubor sevřený.` },
             { t: "h", x: "Patří to vůbec do CLAUDE.md?" },
             { t: "cmp",
               bad: { lbl: "Tvrdé pravidlo v CLAUDE.md", h: `„Nikdy nepushuj do main.“ Claude to většinou dodrží. U něčeho tak nebezpečného ale „většinou“ nestačí.` },
-              good: { lbl: "Tvrdé pravidlo v hooku", h: `PreToolUse hook je kód, který běží před akcí a umí ji zablokovat. I když se Claude o push do main pokusí, hook ho zastaví. Tvrdá pravidla patří do hooků, CLAUDE.md nech měkčím konvencím.` } },
-            { t: "h", x: "Čtyři umístění, která se sčítají" },
-            { t: "p", h: `CLAUDE.md může ležet na čtyřech místech a Claude při spuštění načte všechna najednou. Nic se nezahazuje, vrstvy se skládají.` },
+              good: { lbl: "Tvrdé pravidlo v hooku", h: `PreToolUse hook je kód, který běží před akcí a umí ji zablokovat. Hook push do main zastaví vždy. CLAUDE.md nech měkčím konvencím.` } },
+            { t: "h", x: "Čtyři umístění, načtou se všechna" },
+            { t: "p", h: `Claude při spuštění načte všechna čtyři umístění najednou. Nic se nezahazuje, vrstvy se skládají.` },
             { t: "table", head: ["Umístění", "K čemu"], rows: [
-              ["<b>Managed policy</b>", "Soubor na úrovni organizace, který spravuje platformní tým. Nejde vyloučit, firemní pravidla tedy platí vždy."],
-              ["<b>User</b>", "Tvoje osobní preference, které tě provázejí ve všech projektech na tvém počítači."],
+              ["<b>Managed policy</b>", "Soubor organizace, který spravuje platformní tým. Nejde vyloučit."],
+              ["<b>User</b>", "Tvoje osobní preference pro všechny projekty na tvém počítači."],
               ["<b>Project</b>", "Sdílený s týmem, uložený v repozitáři."],
-              ["<b>Local</b>", "Ignorovaný gitem, tvoje poznámky jen pro tohle jedno repo. Třeba architektonická rozhodnutí pro refaktor ve vlastní větvi, která nemají ovlivnit celý tým."]
+              ["<b>Local</b>", "Ignorovaný gitem, jen pro tebe a tohle repo. Třeba architektonická rozhodnutí pro refaktor ve vlastní větvi."]
             ] },
             { t: "ex", title: "Ukázka: dlouhý soubor rozdělený importy", turns: [
               { who: "sys", mono: true, text: `@.claude/conventions/code-style.md
 @.claude/conventions/testing.md
 @.claude/conventions/workflow.md` }
-            ], note: `Syntaxe <code>@cesta/k/souboru</code> pomůže s pořádkem. Pozor ale na to, co přináší: při spuštění se importované soubory vloží <b>přímo na místo odkazu</b>, takže se pořád načte všechno hned na začátku. Importy organizují, kontext nezmenší.` },
+            ], note: `Importy <code>@cesta/k/souboru</code> pomůžou s pořádkem, ale importované soubory se vloží <b>přímo na místo odkazu</b>, takže se pořád načte všechno hned na začátku. Organizují, kontext nezmenší.` },
             { t: "h", x: "Formulace rozhoduje" },
             { t: "table", head: ["Slabě", "Silně", "Proč"], rows: [
-              ["„Dodržuj osvědčené postupy pro API routy.“", "„Nové API routy dávej do <code>src/api/handlers</code>, jednu na soubor.“", "Konkrétní a ověřitelné. Když neumíš zkontrolovat, jestli se pravidlo dodrželo, nedokáže to ani Claude."],
-              ["„Nepoužívej default exporty.“", "„Používej pojmenované exporty (named exports), ne default exporty.“", "Holý zákaz nechává dveře otevřené. Pojmenovaná náhrada nedává prostor jinému výkladu."],
-              ["IMPORTANT u každého druhého pravidla", "IMPORTANT jen u dvou až tří pravidel, jejichž porušení opravdu bolí", "Důraz zvedá prioritu jen vůči tiššímu okolí. Když křičí všechno, nevynikne nic. Důraz je rozpočet."]
+              ["„Dodržuj osvědčené postupy pro API routy.“", "„Nové API routy dávej do <code>src/api/handlers</code>, jednu na soubor.“", "Co neumíš zkontrolovat ty, nezkontroluje ani Claude."],
+              ["„Nepoužívej default exporty.“", "„Používej pojmenované exporty, ne default exporty.“", "Pojmenovaná náhrada nenechá dveře otevřené."],
+              ["IMPORTANT u každého druhého pravidla", "IMPORTANT jen u dvou až tří pravidel, jejichž porušení opravdu bolí", "Důraz je rozpočet. Když křičí všechno, nevynikne nic."]
             ] },
-            { t: "tip", title: "💡 Soubor není nikdy hotový", h: `Když Claude udělá něco špatně, neopravuj to jen ručně. Ber to jako hlášení chyby v CLAUDE.md a klidně řekni přímo: „přidej to do CLAUDE.md“, Claude pravidlo napíše sám. A obráceně: řádek, který neumíš obhájit, smaž. Starej se o CLAUDE.md jako o produkční kód.` }
+            { t: "tip", h: `Když Claude udělá něco špatně, ber to jako hlášení chyby v CLAUDE.md. Řekni „přidej to do CLAUDE.md“ a Claude pravidlo napíše sám. A obráceně: řádek, který neumíš obhájit, smaž.` }
           ],
           quiz: [
             { q: "Kam patří pravidlo „nikdy nepushuj do main“?", o: ["Do CLAUDE.md, ideálně s IMPORTANT", "Do PreToolUse hooku, který push umí zablokovat", "Do lokálního CLAUDE.md"], a: 1, why: "CLAUDE.md je vodítko, které Claude většinou dodrží. Hook je kód, který akci opravdu zastaví." },
@@ -113,16 +109,15 @@ AKADEMIE.add({
           minutes: 5,
           lead: `Kontrola, která závisí na tom, jestli si o ni vzpomeneš, jednou vypadne. Ověřovací skill se spustí sám a projde pokaždé stejné kroky. Jestli máš postavit jeden skill jako první, je to tenhle.`,
           blocks: [
-            { t: "p", h: `Že se skills hodí na opakovanou práci, víš z Claude Code 101. Obvykle to ale chodí takhle: Claude práci dokončí a ty si musíš vzpomenout na kontrolu, nechat spustit testy, přečíst diff. Jednou na to zapomeneš a špatný kód proklouzne. Ověřovací skill tuhle závislost na tvé paměti odstraní.` },
-            { t: "h", x: "Jak to probíhá" },
+            { t: "p", h: `Obvykle to chodí takhle: Claude práci dokončí a ty si musíš vzpomenout, že máš nechat spustit testy a přečíst diff. Jednou zapomeneš a špatný kód proklouzne. Ověřovací skill tuhle závislost na tvé paměti odstraní:` },
             { t: "steps", items: [
               `Požádáš Claude o refaktor.`,
-              `Když skončí, změna odpovídá <b>popisu skillu</b>, takže se skill spustí sám. Nikdo o něj nemusí žádat.`,
+              `Když skončí, změna odpovídá <b>popisu skillu</b>, takže se skill spustí sám.`,
               `Skill spustí testy a přečte diff.`,
               `Zkontroluje, že žádný test nebyl <b>oslaben</b> jen proto, aby prošel.`,
               `Nahlásí prošlo, nebo neprošlo, a přiloží důkazy.`
             ] },
-            { t: "key", h: `Zelené testy nestačí, test jde potichu uvolnit tak, aby prošel vždy. „Hotovo“ proto není „kód v diffu vypadá dobře“. Hotovo znamená, že brány (gates) byly spuštěné a pozorované a výsledky jsou výslovně uvedené.` },
+            { t: "key", h: `Test jde potichu uvolnit tak, aby prošel vždy, takže zelená nestačí. Hotovo neznamená „kód v diffu vypadá dobře“, ale že brány (gates) byly spuštěné a pozorované a výsledky jsou výslovně uvedené.` },
             { t: "ex", title: "Ukázka: složka ověřovacího skillu", turns: [
               { who: "sys", mono: true, text: `.claude/skills/overeni/
   SKILL.md       krátký postup
@@ -138,20 +133,20 @@ description: Ověří dokončenou změnu kódu (refaktor, opravu, novou funkci).
 2. Přečti git diff.
 3. Zkontroluj, že žádný test nebyl oslaben (viz reference.md).
 4. Nahlas PROŠLO nebo NEPROŠLO, přilož výstup bran a nálezy z diffu.` },
-              { who: "ai", text: `Skill overeni: check.sh doběhl, testy 48/48, lint bez chyb. Diff: 5 souborů, žádný test neoslaben, žádná asserce neubyla. PROŠLO.` }
-            ], note: `Popis skill spouští, postup je pokaždé stejný. SKILL.md zůstává krátký, podrobnosti nese <code>reference.md</code> a nástroje <code>check.sh</code>.` },
+              { who: "ai", text: `Skill overeni: check.sh doběhl, testy 48/48, lint bez chyb. Diff: 5 souborů, žádný test neoslaben. PROŠLO.` }
+            ], note: `Popis skill spouští, postup je pokaždé stejný. Skill je jen ilustrační, názvy si zvol vlastní.` },
             { t: "h", x: "Složka skillu unese víc než instrukce" },
             { t: "ul", items: [
-              `<b>reference.md</b> vedle SKILL.md pro podrobný materiál, odkázaný ze SKILL.md. Claude ho čte, jen když tu hloubku potřebuje.`,
-              `<b>Skripty</b> ve složce Claude spouští, místo aby jejich obsah načítal do kontextu. Skill tak může nést vlastní nástroje, třeba <code>check.sh</code>, který spustí všechny brány.`,
-              `<b>SKILL.md drž štíhlý.</b> Popisuje, co dělat. Hloubka a nástroje patří do vedlejších souborů.`
+              `<b>reference.md</b> vedle SKILL.md nese podrobný materiál. SKILL.md na něj odkáže a Claude ho čte, jen když tu hloubku potřebuje.`,
+              `<b>Skripty</b> Claude spouští, místo aby jejich obsah načítal do kontextu. Skill tak nese vlastní nástroje.`,
+              `<b>SKILL.md drž štíhlý</b>: popisuje, co dělat. Hloubka a nástroje patří do vedlejších souborů.`
             ] },
-            { t: "table", head: ["Druh pravidla", "Kam", "Proč"], rows: [
-              ["Konvence platné pořád (pojmenování, kam patří soubory)", "CLAUDE.md", "Platí v každém sezení."],
-              ["Postup nebo referenční materiál pro určitý druh úkolu", "Skill", "Až do použití je v kontextu jen popis, takže zabalit každý opakovaný postup skoro nic nestojí."],
-              ["Pravidlo, které nesmí jít přeskočit", "Hook", "CLAUDE.md i skill jsou instrukce, které Claude dodržuje. Hook je kód, který opravdu běží."]
+            { t: "table", head: ["Pravidlo", "Kam patří"], rows: [
+              ["Konvence platné pořád (pojmenování, kam patří soubory)", "CLAUDE.md"],
+              ["Postup nebo referenční materiál pro určitý druh úkolu", "Skill. Až do použití je v kontextu jen jeho popis, takže zabalit každý opakovaný postup skoro nic nestojí."],
+              ["Pravidlo, které nesmí jít přeskočit", "Hook. CLAUDE.md i skill jsou instrukce, hook je kód, který opravdu běží."]
             ] },
-            { t: "tip", h: `Pravidlo palce: když jsi stejnou vícekrokovou instrukci napsal/a dvakrát, je to skill. Checklist vydání, recept na migraci, kontrola před PR. Ověřovací skill ulož do <code>.claude/skills</code> v projektu a celý tým zdědí stejnou kontrolu, aniž by si na ni kdokoli musel vzpomenout.` }
+            { t: "tip", h: `Když jsi stejnou vícekrokovou instrukci napsal/a dvakrát, je to skill: checklist vydání, recept na migraci, kontrola před PR. Ověřovací skill ulož do <code>.claude/skills</code> v projektu a celý tým zdědí stejnou kontrolu.` }
           ],
           quiz: [
             { q: "Co spustí ověřovací skill, aniž bys o něj žádal/a?", o: ["Časovač každých deset minut", "Shoda dokončené změny s popisem (description) skillu", "Příkaz git commit"], a: 1, why: "Popis skillu je spouštěč. Když dokončená práce odpovídá popisu, skill se načte sám." },
@@ -174,24 +169,22 @@ description: Ověří dokončenou změnu kódu (refaktor, opravu, novou funkci).
           minutes: 5,
           lead: `Režim oprávnění jednou rozhodne, co smí Claude spouštět bez ptaní. Místo schvalování akce po akci vybereš režim podle práce. Pro práci bez dohledu je klíčový režim Auto.`,
           blocks: [
-            { t: "p", h: `Z Claude Code 101 znáš tři režimy pro každodenní práci s rukou na volantu: Manual (tam „výchozí“), Accept edits a Plan. Celkem je jich ale šest a každý vede hranici mezi „běží volně“ a „potřebuje tvůj souhlas“ jinde.` },
+            { t: "p", h: `Z Claude Code 101 znáš tři každodenní režimy: Manual (tam „výchozí“), Accept edits a Plan. Celkem je jich šest. Klávesy <b>Shift+Tab</b> cyklují mezi Manual, Accept edits, Plan a Auto a stavový řádek dole vždy ukazuje, ve kterém právě jsi.` },
             { t: "table", head: ["Režim", "Co běží bez ptaní", "Kdy"], rows: [
-              ["<b>Manual</b>", "Jen čtení. Vše ostatní se nejdřív zeptá.", "Ruční, hlídaná práce"],
-              ["<b>Accept edits</b>", "Čtení, úpravy souborů a běžné bash příkazy pro práci se soubory", "Iterace nad kódem, který zrevidujes až potom"],
-              ["<b>Plan</b>", "Zkoumá a navrhuje, nic needituje. Čtení běží volně. Když je dostupný Auto, průzkumné příkazy posoudí jeho klasifikátor a schválené pustí bez ptaní.", "Vymezení práce před startem"],
-              ["<b>Auto</b>", "Všechno, ale většinu akcí před spuštěním posoudí samostatný model, klasifikátor", "Práce bez dohledu"],
-              ["<b>Don't ask</b>", "Čtení souborů v pracovních složkách a předem schválené nástroje. Co by se ptalo, se automaticky zamítne.", "CI, plánované úlohy, noční dávky"],
-              ["<b>Bypass permissions</b>", "Přeskočí všechny kontroly, obdoba přepínače <code>--dangerously-skip-permissions</code>", "Jen v izolovaném kontejneru nebo virtuálním stroji"]
+              ["<b>Manual</b>", "Jen čtení, vše ostatní se zeptá", "Hlídaná práce"],
+              ["<b>Accept edits</b>", "Čtení, úpravy souborů a běžné bash příkazy pro práci se soubory", "Iterace, revize až potom"],
+              ["<b>Plan</b>", "Čtení. Nic needituje, jen zkoumá a navrhuje. Když je dostupný Auto, schválené průzkumné příkazy pustí jeho klasifikátor.", "Vymezení práce"],
+              ["<b>Auto</b>", "Všechno, ale většinu akcí předem posoudí samostatný model, klasifikátor", "Práce bez dohledu"],
+              ["<b>Don't ask</b>", "Čtení v pracovních složkách a předem schválené nástroje. Co by se ptalo, se zamítne.", "CI, plánované úlohy, noční dávky"],
+              ["<b>Bypass permissions</b>", "Vše bez kontrol, obdoba <code>--dangerously-skip-permissions</code>", "Jen izolovaný kontejner nebo VM"]
             ] },
-            { t: "p", h: `Klávesy <b>Shift+Tab</b> cyklují mezi každodenními režimy: Manual, Accept edits, Plan a Auto. Stavový řádek dole vždy ukazuje, ve kterém právě jsi.` },
             { t: "h", x: "Jak funguje Auto" },
             { t: "cmp",
               bad: { lbl: "Klasifikátor typicky zastaví", h: `Nasazení do produkce a migrace<br>Force push nebo stažený kód poslaný rovnou do shellu<br>Odeslání citlivých dat na externí adresy<br>Nevratné zničení souborů, které existovaly před sezením` },
               good: { lbl: "Klasifikátor typicky pustí", h: `Lokální úpravy v projektu<br>Instalaci závislostí podle lock souboru<br>Požadavky jen na čtení<br>Push do tvé vlastní větve` } },
-            { t: "p", h: `Klasifikátor hlídá <b>záměr</b>: sleduje kroky, které eskalují nad rámec toho, oč jsi skutečně žádal/a. Pravidla Auto se ještě vyvíjejí, aktuální seznam toho, co blokuje a co pouští, najdeš v dokumentaci.` },
-            { t: "warn", title: "⚠️ Záměr, ne správnost", h: `Klasifikátor nepozná, jestli kód funguje. Když Claude při refaktoru přihlašování napíše rozbité přihlašování, projde to, protože rozbité není nebezpečné. Proto Auto spáruj se <b>stop hookem, který spustí testy</b>. Auto hlídá záměr před většinou akcí, stop hook ověří správnost, když Claude skončí.` },
+            { t: "warn", title: "⚠️ Záměr, ne správnost", h: `Klasifikátor hlídá <b>záměr</b>, tedy kroky nad rámec toho, oč jsi žádal/a. Jestli kód funguje, nepozná. Rozbité přihlašování projde, protože rozbité není nebezpečné. Proto Auto spáruj se <b>stop hookem, který spustí testy</b>: Auto hlídá záměr před většinou akcí, stop hook správnost po skončení. Pravidla Auto se ještě vyvíjejí, aktuální seznamy najdeš v dokumentaci.` },
             { t: "h", x: "Don't ask pro běhy bez lidí" },
-            { t: "p", h: `Když u běhu není nikdo, kdo by schvaloval (CI pipeline, plánované úlohy, noční dávky), sáhni po Don't ask. Claude dál spustí, co ani v Manual nepotřebuje schválení, tedy čtení souborů v pracovních složkách, plus nástroje, které jsi předem schválil/a. Všechno, co by se jinak ptalo, se automaticky zamítne. V tom je smysl: pipeline jede dál, místo aby visela na schválení, které nemá kdo dát.` }
+            { t: "p", h: `Když u běhu není nikdo, kdo by schvaloval (CI pipeline, plánované úlohy, noční dávky), sáhni po Don't ask. Claude dál spustí, co ani v Manual schválení nepotřebuje, tedy čtení v pracovních složkách, plus předem schválené nástroje. Všechno ostatní se automaticky zamítne. Pipeline tak jede dál, místo aby visela na schválení, které nemá kdo dát.` }
           ],
           quiz: [
             { q: "Co klasifikátor v režimu Auto nezachytí?", o: ["Force push", "Rozbitý, ale neškodný kód", "Odeslání citlivých dat ven"], a: 1, why: "Klasifikátor hlídá záměr, ne správnost. Na správnost je stop hook s testy." },
@@ -211,21 +204,21 @@ description: Ověří dokončenou změnu kódu (refaktor, opravu, novou funkci).
         {
           id: "cca-05",
           title: "Hooks: pravidla, která nejde přeskočit",
-          minutes: 7,
-          lead: `Pokyn v CLAUDE.md je prosba, ne záruka. Hook je deterministický kód v pevném bodě smyčky, takže mění „Claude většinou poslechne“ na „Claude to nemůže přeskočit“. Základ znáš z Claude Code 101, tady jdeme dál než k formátování.`,
+          minutes: 6,
+          lead: `Pokyn v CLAUDE.md je prosba, hook je záruka. Deterministický kód v pevném bodě smyčky mění „Claude většinou poslechne“ na „Claude to nemůže přeskočit“. Základ znáš z Claude Code 101, tady jdeme dál než k formátování.`,
           blocks: [
-            { t: "p", h: `Claude Code během sezení vyvolá kolem 30 hook událostí. Znát je všechny nemusíš. Pár z nich budeš používat pořád dokola a odpovídají místům agentní smyčky, kde dává smysl zasáhnout: sezení začne, přijde prompt, volají se nástroje, tah skončí.` },
-            { t: "table", head: ["Událost", "Kdy se spustí", "K čemu"], rows: [
-              ["<b>PreToolUse</b>", "Před voláním nástroje", "Vynucování. Umí akci zastavit dřív, než proběhne."],
-              ["<b>PostToolUse</b>", "Po úspěšném volání nástroje", "Automatické formátování nebo lint"],
-              ["<b>Stop</b> (a SubagentStop)", "Když chce Claude ukončit tah (když skončí subagent)", "Odmítnout konec: ještě nejsi hotový, podmínka není splněná"],
-              ["<b>PreCompact</b> / <b>PostCompact</b>", "Před kompakcí a po ní", "Zásah kolem kompakce"],
-              ["<b>InstructionsLoaded</b>", "Když se načte CLAUDE.md nebo soubor s pravidly", "Audit toho, co se opravdu dostalo do kontextu"],
-              ["<b>SessionStart</b>", "Na začátku sezení", "Příprava prostředí. Se zdrojem <code>startup</code> jen při čerstvém startu."]
+            { t: "p", h: `Claude Code během sezení vyvolá kolem 30 hook událostí. Pořád dokola budeš používat jen pár z nich:` },
+            { t: "table", head: ["Událost", "Kdy a k čemu"], rows: [
+              ["<b>PreToolUse</b>", "Před voláním nástroje. Nástroj vynucování: umí akci zastavit dřív, než proběhne."],
+              ["<b>PostToolUse</b>", "Po úspěšném volání. Typicky automatické formátování nebo lint."],
+              ["<b>Stop</b>, SubagentStop", "Když chce Claude ukončit tah (subagent skončit). Můžeš odmítnout: ještě nejsi hotový."],
+              ["<b>PreCompact</b>, <b>PostCompact</b>", "Před kompakcí a po ní."],
+              ["<b>InstructionsLoaded</b>", "Když se načte CLAUDE.md nebo soubor s pravidly. Audit toho, co se dostalo do kontextu."],
+              ["<b>SessionStart</b>", "Na začátku sezení, připraví prostředí. Se zdrojem <code>startup</code> jen při čerstvém startu."]
             ] },
-            { t: "warn", title: "⚠️ Častá past", h: `Chceš po kompakci vrátit Claude přehled práce? Nepoužívej PostCompact, ale <b>SessionStart s matcherem <code>compact</code></b>. Běží hned po kompakci a jen jeho výstup se dostane zpátky do rozhovoru. Nech ho vypsat krátký přehled souborů, na kterých pracuješ, a Claude naváže, místo aby začínal od nuly.` },
+            { t: "warn", title: "⚠️ Častá past", h: `Kontext po kompakci nevracej přes PostCompact, ale přes <b>SessionStart s matcherem <code>compact</code></b>. Jen jeho výstup se dostane zpátky do rozhovoru. Nech ho vypsat krátký přehled souborů, na kterých pracuješ, a Claude naváže, místo aby začínal od nuly.` },
             { t: "h", x: "PreToolUse: rozhodnutí v JSONu" },
-            { t: "p", h: `PreToolUse má největší sílu, protože umí volání nástroje zablokovat. Claude odpovíš tak, že vypíšeš JSON a skončíš s kódem 0. Klíčové pole je <code>permissionDecision</code>: <code>allow</code> (pustit), <code>deny</code> (zastavit), nebo <code>ask</code> (rozhodne uživatel). Existuje i čtvrtá hodnota <code>defer</code>, ta ale platí jen pro neinteraktivní běhy s <code>-p</code>, kdy volající proces nástroj pozastaví a později obnoví. Potřebovat ji budeš zřídka.` },
+            { t: "p", h: `Hook odpoví tak, že vypíše JSON a skončí s kódem 0. Klíčové pole <code>permissionDecision</code> má hodnoty <code>allow</code> (pustit), <code>deny</code> (zastavit) a <code>ask</code> (rozhodne uživatel). Čtvrtá, <code>defer</code>, platí jen pro neinteraktivní běhy s <code>-p</code>, kdy volající proces nástroj pozastaví a později obnoví.` },
             { t: "ex", title: "Ukázka: tvar odpovědi PreToolUse hooku", turns: [
               { who: "sys", mono: true, text: `{
   "hookSpecificOutput": {
@@ -237,19 +230,18 @@ description: Ověří dokončenou změnu kódu (refaktor, opravu, novou funkci).
     }
   }
 }` }
-            ], note: `Všimni si <code>updatedInput</code>. Volání nemusíš zablokovat, můžeš ho <b>přepsat</b>, třeba vymazat tajný klíč z bash příkazu a nechat ho proběhnout. Pozor: <code>updatedInput</code> nahradí celý vstupní objekt, takže pole, která neměníš, musíš poslat zpátky, jinak se ztratí.` },
-            { t: "h", x: "Exit kódy pro hooky bez JSONu" },
-            { t: "table", head: ["Kód", "Význam"], rows: [
-              ["<b>0</b>", "Úspěch. Pokud je na standardním výstupu JSON, Claude ho zpracuje. Prostý text se u většiny událostí ignoruje, ale u SessionStart, UserPromptSubmit a UserPromptExpansion se přidá do kontextu. Na tom stojí hook, který uchová stav přes kompakci."],
-              ["<b>2</b>", "Blokující chyba. Chybový výstup (stderr) dostane Claude jako kontext. Téměř všude je to ten blokující kód."],
+            ], note: `Přes <code>updatedInput</code> volání nemusíš zablokovat, ale <b>přepsat</b>. Pozor: nahradí celý vstupní objekt, takže pole, která neměníš, musíš poslat zpátky, jinak se ztratí.` },
+            { t: "table", head: ["Exit kód", "Co znamená"], rows: [
+              ["<b>0</b>", "Úspěch. JSON na výstupu Claude zpracuje. Prostý text se většinou ignoruje, jen u SessionStart, UserPromptSubmit a UserPromptExpansion se přidá do kontextu."],
+              ["<b>2</b>", "Blokující chyba, téměř všude. Chybový výstup (stderr) dostane Claude jako kontext."],
               ["<b>Cokoli jiného</b>", "Neblokující. Stderr se zaloguje a Claude pokračuje."]
             ] },
-            { t: "warn", title: "⚠️ Exit 1 neblokuje", h: `Kód 1 vypadá jako chyba, ale nic nezastaví: Claude příkaz stejně spustí. Chceš-li blokovat, ukonči hook kódem 2. Exit 2 umí zablokovat i Stop, tím Claude řekneš, že ještě není hotový. PostToolUse běží až po nástroji, takže blokovat je tam pozdě, text ale Claude předat může. A některé události blokování ignorují úplně: Notification a SessionStart pokračují vždy.` },
+            { t: "warn", title: "⚠️ Exit 1 neblokuje", h: `Kód 1 vypadá jako chyba, ale Claude příkaz stejně spustí. Blokuje se kódem 2, a ten umí zastavit i Stop. U PostToolUse je na blokování pozdě, nástroj už proběhl, text ale Claude předat jde. Notification a SessionStart blokování ignorují úplně.` },
             { t: "ex", title: "Ukázka: redigovat místo blokovat", turns: [
               { who: "ai", label: "Claude chce spustit (Bash)", mono: true, text: `curl -H "Authorization: Bearer sk_live_51Hx...9aQ" https://api.example.com/v1/balance` },
               { who: "sys", label: "PreToolUse hook (matcher Bash)", text: `Nalezen vzor sk_live_. Hook vrací updatedInput s příkazem, ve kterém je klíč nahrazený zástupným textem.` },
               { who: "ai", label: "Skutečně spuštěno", mono: true, text: `curl -H "Authorization: Bearer [REDACTED]" https://api.example.com/v1/balance` }
-            ], note: `Příkaz proběhl, práce se udělala, ale tajný klíč neprošel. <b>Matcher</b> vybírá nástroj, který hook hlídá, a volitelná klauzule <code>if</code> ho může zúžit na konkrétní příkaz. Vrátit <code>deny</code> je dobré, přepsat volání je často lepší. A hook to vynutí pokaždé, i v běhu, který nikdo nesleduje.` }
+            ], note: `Příkaz proběhl, ale tajný klíč neprošel. <b>Matcher</b> vybírá hlídaný nástroj, volitelná klauzule <code>if</code> ho zúží na konkrétní příkaz. A hook to vynutí pokaždé, i v běhu, který nikdo nesleduje.` }
           ],
           quiz: [
             { q: "Hook má zastavit nebezpečný příkaz. S jakým exit kódem má skončit?", o: ["0 s prostým textem", "1", "2"], a: 2, why: "Blokuje exit 2. Exit 1 je neblokující chyba, Claude příkaz stejně spustí." },
@@ -274,22 +266,22 @@ description: Ověří dokončenou změnu kódu (refaktor, opravu, novou funkci).
         {
           id: "cca-06",
           title: "Routines a headless režim",
-          minutes: 7,
+          minutes: 6,
           lead: `Úkol, kterému důvěřuješ, už nemusíš spouštět ručně. Představ si spektrum: na jednom konci routines na infrastruktuře Anthropicu, kde nic nestavíš, na druhém headless režim a Agent SDK, kde Claude Code řídíš z vlastního kódu.`,
           blocks: [
             { t: "h", x: "Routine: uložený prompt, který běží v cloudu" },
-            { t: "p", h: `Routine je nejpřímější cesta k automatizaci. Žádný skript, žádný server. Spojí tři věci: <b>prompt</b>, <b>repozitář</b>, nad kterým pracuje, a potřebné <b>konektory</b>. Tenhle balík pak spustí v cloudu pokaždé, když přijde spouštěč. Infrastruktura je Anthropicu: žádný tvůj počítač nemusí běžet přes noc a neudržuješ žádný workflow soubor. Hodí se na cokoli, co je stejný prompt s opakovaným spouštěčem.` },
+            { t: "p", h: `Routine spojí <b>prompt</b>, <b>repozitář</b> a potřebné <b>konektory</b> a spustí je v cloudu pokaždé, když přijde spouštěč. Žádný skript, server ani workflow soubor, žádný tvůj počítač, který musí běžet přes noc. Hodí se na cokoli, co je stejný prompt s opakovaným spouštěčem.` },
             { t: "table", head: ["Spouštěč", "Příklad"], rows: [
               ["Rozvrh (cron)", "Každé ráno v 9:00 audit závislostí, nebo průchod tiketů v Sentry podle naléhavosti"],
-              ["HTTP POST na API endpoint routine", "Spustí ji tvůj vlastní kód, kdy potřebuje"],
+              ["HTTP POST na API endpoint routine", "Spustí ji tvůj vlastní kód"],
               ["Událost na GitHubu", "Přijde nový pull request a routine ho roztřídí"]
             ] },
             { t: "ex", title: "Ukázka: routine z terminálu", turns: [
               { who: "user", mono: true, text: `/schedule každý den v 9:00 audit závislostí` }
-            ], note: `Příkazu <code>/schedule</code> v Claude Code stačí popsat úlohu běžnou řečí. Stejně dobře jde routine založit na webu <b>claude.ai/code/routines</b>: název, instrukce pro každé sezení, repozitář a spouštěč.` },
-            { t: "warn", title: "⚠️ Než se na routines spolehneš", h: `<b>Research preview</b>: chování a limity se budou měnit.<br><b>Nejvýš jednou za hodinu</b>: častější opakování routines neumí.<br><b>Čerstvý klon</b>: běh začíná z čerstvého klonu výchozí větve a pushuje do větve <code>claude/</code>, pokud prompt neurčí jinou. Když běh spustí událost pull requestu, repozitář PR začne z head commitu toho PR (pokud je v routine první). Kam smí běh pushovat, ohlídej pravidly ochrany větví (branch protection) nebo rulesets na GitHubu. Platí pro GitHub přístup, který jsi připojil/a, takže pravidlo, které tvůj přístup smí obejít, push nezastaví.` },
+            ], note: `Příkazu <code>/schedule</code> stačí popsat úlohu běžnou řečí. Na webu <b>claude.ai/code/routines</b> vyplníš totéž ručně: název, instrukce pro každé sezení, repozitář a spouštěč.` },
+            { t: "warn", title: "⚠️ Než se na routines spolehneš", h: `Jsou ve fázi <b>research preview</b>, chování a limity se budou měnit. Opakovaný rozvrh běží <b>nejvýš jednou za hodinu</b>. Běh začíná z <b>čerstvého klonu výchozí větve</b> a pushuje do větve <code>claude/</code>, pokud prompt neurčí jinou. U běhu spuštěného pull requestem začne repozitář PR z jeho head commitu (pokud je v routine první). Kam smí běh pushovat, ohlídej pravidly ochrany větví nebo rulesets na GitHubu. Pravidlo, které tvůj připojený přístup smí obejít, ale push nezastaví.` },
             { t: "h", x: "Headless: když práce potřebuje tvé prostředí" },
-            { t: "p", h: `Někdy úloha potřebuje tvé prostředí nebo logiku kolem běhu. Pak přichází na řadu headless režim, v dokumentaci nově „non-interactive mode“. Jádrem je přepínač <code>-p</code> (zkratka <code>--print</code>): Claude Code proběhne jako jednorázový příkaz bez rozhraní, čte standardní vstup a píše na standardní výstup, takže se dá řetězit jako jakýkoli shellový nástroj, třeba <code>claude -p "shrň změny v tomto diffu"</code>. Samotné <code>-p</code> načte stejný kontext jako interaktivní sezení: hooks, skills, pluginy, MCP servery i CLAUDE.md.` },
+            { t: "p", h: `Headless režim (v dokumentaci nově non-interactive mode) spustíš přepínačem <code>-p</code>, zkratkou <code>--print</code>. Claude Code proběhne jako jednorázový příkaz bez rozhraní, čte standardní vstup, píše na výstup a řetězí se jako jakýkoli shellový nástroj: <code>claude -p "shrň změny v tomto diffu"</code>. Načte přitom stejný kontext jako interaktivní sezení, tedy hooks, skills, pluginy, MCP servery i CLAUDE.md.` },
             { t: "ex", title: "Ukázka: strukturovaný výstup a navázání sezení", turns: [
               { who: "sys", mono: true, text: `claude -p "Vypiš názvy exportovaných funkcí ze src/core/style.js" \\
   --output-format json \\
@@ -298,13 +290,12 @@ description: Ověří dokončenou změnu kódu (refaktor, opravu, novou funkci).
 
 # později, z jiného skriptu:
 claude --resume "$(jq -r .session_id /tmp/plan.json)"` }
-            ], note: `JSON schéma spolu s výstupním formátem JSON omezí odpověď na tvé schéma. Odpovídající objekt najdeš v poli <code>structured_output</code>, takže ho jq vytáhne a pošle dál, do databáze nebo dalšího skriptu. U vícekrokové práce si z JSON výstupu ulož <code>session_id</code>: jeden skript třeba připraví plán, druhý ho později s plným kontextem provede přes <code>--resume</code>.` },
-            { t: "p", h: `<b>Pro CI: <code>--bare</code>.</b> Přeskočí automatické hledání hooks, skills, pluginů, MCP serverů a CLAUDE.md. Dostaneš Claude s nástroji Bash, čtení a úprav souborů, plus to, co předáš přepínačem jako <code>--settings</code> nebo <code>--mcp-config</code>. Každý stroj tak startuje ze stejného nastavení, a rychleji. Bare režim nepoužívá přihlášení předplatným, nastav proto nejdřív <code>ANTHROPIC_API_KEY</code>.<br><br><b>Agent SDK</b> je poslední krok spektra: knihovna, která vloží Claude Code do tvé aplikace v TypeScriptu nebo Pythonu. Oba jazyky nabízejí funkci <code>query</code> a stejná primitiva jako CLI. Předáš prompt a volby jako <code>allowedTools</code>, systémový prompt a režim oprávnění, a pak procházíš zprávy, které Claude streamuje zpátky.` },
+            ], note: `S JSON schématem a výstupním formátem JSON Claude odpoví podle schématu a výsledek najdeš v poli <code>structured_output</code>, odkud ho jq pošle dál. Z JSON výstupu si můžeš uložit i <code>session_id</code>: jeden skript připraví plán, druhý ho později s plným kontextem provede přes <code>--resume</code>.` },
             { t: "table", head: ["Situace", "Sáhni po"], rows: [
-              ["Opakovaná práce, nic nechceš hostovat", "<b>Routine</b> (výchozí volba)"],
-              ["Úloha potřebuje tvou pipeline, data tečou přes skript", "<b>Headless</b> s <code>-p</code>"],
-              ["CI potřebuje stejné nastavení na každém stroji", "<code>--bare</code>"],
-              ["Práce patří dovnitř tvého produktu", "<b>Agent SDK</b>"]
+              ["Opakovaná práce, nic nechceš hostovat", "<b>Routine</b>, výchozí volba."],
+              ["Úloha potřebuje tvou pipeline a data tečou přes skript", "<b>Headless</b> s <code>-p</code>."],
+              ["CI potřebuje stejné nastavení na každém stroji", "<code>--bare</code>: přeskočí automatické hledání hooks, skills, pluginů, MCP serverů a CLAUDE.md. Zbudou nástroje Bash, čtení a úpravy souborů plus to, co předáš přes <code>--settings</code> nebo <code>--mcp-config</code>. Start je rychlejší. Nepoužívá přihlášení předplatným, nastav <code>ANTHROPIC_API_KEY</code>."],
+              ["Práce patří dovnitř tvého produktu", "<b>Agent SDK</b> pro TypeScript a Python: funkce <code>query</code> s volbami jako <code>allowedTools</code>, systémový prompt a režim oprávnění, pak procházíš streamované zprávy. Stejný motor jako CLI."]
             ] }
           ],
           quiz: [
@@ -326,26 +317,21 @@ claude --resume "$(jq -r .session_id /tmp/plan.json)"` }
           id: "cca-07",
           title: "GitHub Actions a Code Review",
           minutes: 6,
-          lead: `Nejlepší místo pro předání opakované práce je pull request: tam probíhá revize, tam se změny dostávají do kódu. Claude tam zapojíš dvěma způsoby. Code Review je spravovaná služba, kterou zapneš. GitHub Action si zapojíš sám.`,
+          lead: `Nejlepší místo pro předání opakované práce je pull request: tam probíhá revize a tam se změny dostávají do kódu. Claude tam zapojíš dvěma způsoby: spravovanou službou Code Review, kterou zapneš, nebo GitHub Action, kterou si zapojíš sám.`,
           blocks: [
             { t: "h", x: "Spravovaná cesta: Code Review" },
-            { t: "p", h: `Code Review je služba hostovaná Anthropicem, která reviduje tvé pull requesty přes Claude GitHub app. Nic nestavíš ani nehostuješ. Zapne ji <b>Owner</b> organizace Claude v administraci Claude Code: v sekci Code review přepínačem <b>Allow code review</b>. Pak nainstaluje Claude GitHub app, vybere repozitáře a určí, kdy se revize spouští. Pokud Owner není zároveň vlastníkem organizace na GitHubu, musí aplikaci nejdřív nainstalovat a propojit někdo, kdo jím je.` },
-            { t: "ul", items: [
-              `Jednou, když se PR otevře`,
-              `Při každém pushi do PR`,
-              `Jen když někdo napíše komentář <code>@claude review</code>`
-            ] },
-            { t: "p", h: `Vše pak běží na infrastruktuře Anthropicu. Sada revizních agentů porovná diff s <b>celým kódem</b>, ne jen se změněnými řádky. Nálezy přidá jako komentáře přímo k řádkům, označené podle závažnosti, se souhrnnou tabulkou v check runu. Nálezy deduplikuje a seřadí, takže místo stěny drobností čteš pár skutečných problémů.` },
-            { t: "info", title: "ℹ️ Co Code Review dělá a co ne", h: `Nikdy PR neschválí ani nezablokuje, rozhodnutí zůstává člověku. Nepushuje opravy, jen přidává nálezy. Je dostupná v plánech Team a Enterprise. Na nález reaguješ ty: opravíš kód a pushneš. Opravu si můžeš předem ověřit příkazem <code>/code-review</code> ve vlastním terminálu. Udělá vlastní revizi tvého diffu a s přepínačem <code>--fix</code> její nálezy rovnou aplikuje do pracovního stromu.` },
+            { t: "p", h: `Code Review je služba hostovaná Anthropicem, která reviduje pull requesty přes Claude GitHub app. Zapne ji <b>Owner</b> organizace Claude v administraci Claude Code (sekce Code review, přepínač <b>Allow code review</b>). Nainstaluje Claude GitHub app, vybere repozitáře a určí, kdy revize běží: jednou při otevření PR, při každém pushi, nebo jen na komentář <code>@claude review</code>. Není-li Owner zároveň vlastníkem organizace na GitHubu, musí aplikaci nejdřív nainstalovat a propojit někdo, kdo jím je.` },
+            { t: "p", h: `Sada revizních agentů porovná diff s <b>celým kódem</b>, ne jen se změněnými řádky. Nálezy přidá jako komentáře přímo k řádkům, označené podle závažnosti, se souhrnnou tabulkou v check runu. Deduplikuje je a seřadí, takže místo stěny drobností čteš pár skutečných problémů.` },
+            { t: "info", title: "ℹ️ Co Code Review nedělá", h: `PR nikdy neschválí ani nezablokuje, rozhodnutí zůstává člověku. Opravy nepushuje, jen přidává nálezy. Dostupná je v plánech Team a Enterprise. Na nález reaguješ ty: opravíš kód a pushneš. Předem si opravu ověříš příkazem <code>/code-review</code> ve vlastním terminálu, s přepínačem <code>--fix</code> rovnou aplikuje své nálezy do pracovního stromu.` },
             { t: "h", x: "Vlastní cesta: GitHub Action" },
-            { t: "p", h: `Když jde o víc než revizi (vlastní CI, implementace změn z komentáře, plánované reporty), sáhni po GitHub Action. Spouští agenta na komentáře v PR, podle rozvrhu i na jakoukoli událost GitHubu. Nastavení začni v Claude Code příkazem <code>/install-github-app</code> (potřebuješ admin práva k repozitáři). Provede tě instalací GitHub app a nastaví do repozitáře secret s API klíčem Anthropicu. Samotná akce je <code>anthropics/claude-code-action@v1</code>.` },
+            { t: "p", h: `Na víc než revizi (implementace změn z komentáře, plánované reporty, vlastní CI) je GitHub Action. Spouští agenta na komentáře v PR, podle rozvrhu i na jakoukoli událost GitHubu. Nastavení začni v Claude Code příkazem <code>/install-github-app</code> (potřebuješ admin práva k repozitáři): nainstaluje GitHub app a nastaví do repozitáře secret s API klíčem. Akce se jmenuje <code>anthropics/claude-code-action@v1</code>.` },
             { t: "table", head: ["Vstup", "K čemu"], rows: [
-              ["<code>anthropic_api_key</code>", "Nutný, když běh volá Claude API, pokud se neověřuješ přes <code>claude_code_oauth_token</code> (z předplatného Claude) nebo přes workload identity federation (service account v Claude Console, bez uloženého secretu). U cloudových poskytovatelů se nepoužívá."],
-              ["<code>github_token</code>", "Volitelný. Bez něj se akce ověří jako nainstalovaná Claude GitHub app. Token předej, jen když to chceš přebít."],
-              ["<code>trigger_phrase</code>", "Na co akce v komentářích reaguje. Výchozí je <code>@claude</code>."],
-              ["<code>use_bedrock</code>, <code>use_vertex</code>, <code>use_foundry</code>", "Běh přes Amazon Bedrock, Agent Platform od Google Cloud nebo Microsoft Foundry místo Claude API, s přihlášením cloudovým účtem."],
-              ["<code>prompt</code>", "Instrukce pro automatický běh. Když ji nastavíš, Claude běží na událost bez čekání na zmínku. Bez ní akce čeká na trigger phrase."],
-              ["<code>claude_args</code>", "Řetězec argumentů CLI, který se předá rovnou Claude Code."]
+              ["<code>anthropic_api_key</code>", "Nutný pro volání Claude API, pokud se neověřuješ přes <code>claude_code_oauth_token</code> (předplatné Claude) nebo workload identity federation (service account v Claude Console, bez uloženého secretu)."],
+              ["<code>github_token</code>", "Volitelný. Bez něj se akce ověří jako nainstalovaná Claude GitHub app."],
+              ["<code>trigger_phrase</code>", "Na co akce v komentářích reaguje, výchozí <code>@claude</code>."],
+              ["<code>use_bedrock</code>, <code>use_vertex</code>, <code>use_foundry</code>", "Běh přes Amazon Bedrock, Agent Platform od Google Cloud nebo Microsoft Foundry, s přihlášením cloudovým účtem místo API klíče."],
+              ["<code>prompt</code>", "S ním Claude běží na událost bez čekání na zmínku. Bez něj akce čeká na trigger phrase."],
+              ["<code>claude_args</code>", "Argumenty CLI předané rovnou Claude Code."]
             ] },
             { t: "ex", title: "Ukázka: workflow, které reaguje na @claude", turns: [
               { who: "sys", mono: true, text: `# .github/workflows/claude.yaml (hlavní krok)
@@ -355,9 +341,8 @@ claude --resume "$(jq -r .session_id /tmp/plan.json)"` }
     trigger_phrase: "@claude"
     claude_args: "--max-turns 5 --model claude-sonnet-5"` },
               { who: "user", label: "Komentář v pull requestu", text: `@claude implementuj specifikaci z navázaného Linear issue` }
-            ], note: `Workflow naslouchá <code>@claude</code> v komentářích PR i issues. V oprávněních jobu nastav <code>id-token: write</code>, aby se akce mohla přihlásit jako Claude GitHub app. Claude pak pushne commity a do komentářů popíše, co udělal. <code>--max-turns 5</code> pevně omezí agentní smyčku, aby neběžela donekonečna.` },
-            { t: "p", h: `Stejná akce zvládne i <b>denní souhrn</b>: cron spustí workflow třeba v 9:00 UTC, akce provede tvůj prompt a souhrn si přečteš v logu běhu. Plánovaný běh sám komentář nepřidá. Přidej i spouštěč <code>workflow_dispatch</code>, ať jde běh pustit ručně ze záložky Actions, kde ho taky sleduješ krok po kroku. V <code>claude_args</code> pak dolaď <code>--max-turns</code> jako strop, režim oprávnění, který se nezastaví na otázce (nikdo neodpoví), a povolené nástroje přesně podle potřeby, u reportu jen čtení.` },
-            { t: "key", h: `Na revize PR začni spravovanou službou Code Review. Na akci přejdi ve chvíli, kdy má Claude v CI něco opravdu udělat, ne jen komentovat.` }
+            ], note: `Workflow naslouchá v komentářích PR i issues. V oprávněních jobu nastav <code>id-token: write</code>, aby se akce mohla přihlásit jako Claude GitHub app. Claude pak pushne commity a do komentářů popíše, co udělal. <code>--max-turns 5</code> pevně omezí agentní smyčku.` },
+            { t: "p", h: `Stejná akce zvládne <b>denní souhrn</b>: cron spustí workflow třeba v 9:00 UTC a souhrn si přečteš v logu běhu (plánovaný běh sám komentář nepřidá). Se spouštěčem <code>workflow_dispatch</code> běh pustíš i ručně ze záložky Actions. V <code>claude_args</code> pro běh bez lidí nastav strop <code>--max-turns</code>, režim oprávnění, který se nezastaví na otázce, a jen nutné nástroje, u reportu jen čtení. Začni spravovanou službou a na akci přejdi, až má Claude v CI něco opravdu udělat, ne jen komentovat.` }
           ],
           quiz: [
             { q: "Co Code Review udělá s pull requestem?", o: ["Schválí ho, když nenajde chyby", "Pushne opravy nálezů", "Přidá nálezy jako komentáře k řádkům, rozhodnutí nechá na člověku"], a: 2, why: "Code Review nikdy neschvaluje, neblokuje ani neopravuje. Jen přidává seřazené nálezy." },
@@ -382,12 +367,11 @@ claude --resume "$(jq -r .session_id /tmp/plan.json)"` }
         {
           id: "cca-08",
           title: "Ověření běhů bez dohledu",
-          minutes: 5,
+          minutes: 4,
           lead: `Claude ohlásil hotovo a ty jsi u toho nebyl/a. Zásada je jednoduchá: ověřuj úměrně tomu, kolik volnosti jsi běhu dal/a. Čím méně jsi sledoval/a, tím víc kontroluj.`,
           blocks: [
-            { t: "p", h: `Když jsi v krátkém sezení sledoval/a, jak zprávy běží, stačí rychlý pohled. Běh bez dozoru nebo úloha, která proběhla v CI bez člověka ve smyčce, potřebuje skutečnou kontrolu. Nikdo neviděl, co se dělo, takže to musíš zpětně zrekonstruovat.` },
-            { t: "h", x: "Bez dohledu v Auto, ne v Bypass" },
-            { t: "p", h: `Běh bez dozoru v práci nech v režimu <b>Auto</b>, ne v Bypass permissions. Klasifikátor v Auto dál posuzuje většinu akcí, jestli nejsou nebezpečné, a tahle záchranná síť stojí za to. Správnost kódu ale nikdy neposuzuje. Tvoje laťka pro ověření proto zůstává stejná a řídí se tím, jak moc byl běh bez dohledu.` },
+            { t: "p", h: `Krátké sezení, u kterého jsi sledoval/a zprávy, stačí přelétnout. Běh bez dozoru nebo úloha v CI bez člověka ve smyčce potřebuje skutečnou kontrolu: nikdo neviděl, co se dělo, takže to musíš zpětně zrekonstruovat.` },
+            { t: "p", h: `<b>Bez dohledu v Auto, ne v Bypass.</b> Klasifikátor v Auto dál posuzuje většinu akcí, jestli nejsou nebezpečné, a tahle záchranná síť stojí za to. Správnost kódu ale neposuzuje nikdy, takže laťka pro ověření zůstává stejná.` },
             { t: "h", x: "Začni diffem, ne shrnutím" },
             { t: "steps", items: [
               `Spusť <code>/code-review</code>, ať projde změny a označí problémy.`,
@@ -396,16 +380,16 @@ claude --resume "$(jq -r .session_id /tmp/plan.json)"` }
             ] },
             { t: "cmp",
               bad: { lbl: "Úhledné shrnutí", h: `„Refaktor dokončen, logika plateb je přehlednější, testy prochází.“ Čte se skvěle.` },
-              good: { lbl: "Diff", h: `Mezi změněnými soubory je i konfigurace, se kterou plán vůbec nepočítal. Shrnutí to neřekne, diff ano. Úhledný popis není důkaz čistého kódu.` } },
+              good: { lbl: "Diff", h: `Mezi změněnými soubory je i konfigurace, se kterou plán vůbec nepočítal. Shrnutí to neřekne, diff ano.` } },
             { t: "h", x: "Testy jako brána, ne slib" },
-            { t: "p", h: `Skutečná brána u běhu bez dohledu je, jestli testy prošly a jestli je Claude opravdu spustil, nebo to jen tvrdí. Nenechávej to na důvěře a zapoj to jako hooky, které Claude nemůže přeskočit:` },
             { t: "ul", items: [
-              `<b>Stop hook</b>, který spustí testy a při selhání odmítne ukončit tah.`,
-              `<b>PostToolUse hook</b>, který po každé úpravě spustí lint a typovou kontrolu.`,
-              `Klíčový je <b>exit 2</b>: selhání jde rovnou zpět ke Claude, ten ho přečte a opraví bez tvého zásahu. A kontrola proběhne v každém běhu, ať si na ni vzpomeneš, nebo ne.`
+              `Prošly testy a spustil je Claude opravdu, nebo to jen tvrdí? Nenechávej to na důvěře, zapoj to jako hooky.`,
+              `<b>Stop hook</b> spustí testy a při selhání odmítne ukončit tah.`,
+              `<b>PostToolUse hook</b> po každé úpravě spustí lint a typovou kontrolu.`,
+              `S <b>exit 2</b> jde selhání rovnou ke Claude, ten ho přečte a opraví bez tvého zásahu. A kontrola proběhne v každém běhu, ať si na ni vzpomeneš, nebo ne.`
             ] },
-            { t: "p", h: `<b>Studený druhý názor.</b> Revize subagentem, kterou bys udělal/a před pull requestem, funguje i tady. Otevři nové sezení nebo subagenta a nech ho zrevidovat změněný kód bez paměti na to, jak vznikal. V postupu nemá žádný vklad, takže najde, co si původní běh sám před sebou omluvil.` },
-            { t: "key", h: `Kontrola tak vážná, jak moc byl běh bez dohledu: diff přečti sám/sama, testy udělej hookem, který hlídá konec tahu, headless běhy ověřuj podle JSON výsledku a exit kódu a na všechno důležité si vezmi studený druhý názor.` }
+            { t: "p", h: `<b>Studený druhý názor.</b> Otevři nové sezení nebo subagenta a nech ho zrevidovat změněný kód bez paměti na to, jak vznikal. V postupu nemá žádný vklad, takže najde, co si původní běh sám před sebou omluvil.` },
+            { t: "key", h: `Diff přečti sám/sama, testy udělej hookem, který hlídá konec tahu, headless běhy ověřuj podle JSON výsledku a exit kódu a na všechno důležité si vezmi studený druhý názor.` }
           ],
           quiz: [
             { q: "Proč nechat běh bez dozoru v Auto místo Bypass permissions?", o: ["Auto ověří, že je kód správně", "Klasifikátor dál zachytí většinu nebezpečných akcí", "Bypass je pomalejší"], a: 1, why: "Auto drží záchrannou síť proti nebezpečným akcím. Správnost ale neověřuje, tu musíš zkontrolovat sám/sama." },
@@ -424,26 +408,25 @@ claude --resume "$(jq -r .session_id /tmp/plan.json)"` }
         {
           id: "cca-09",
           title: "Pluginy pro celý tým",
-          minutes: 7,
+          minutes: 6,
           lead: `Nastavení, kterému věříš, má větší cenu, když ho používá celý tým. Kopírovat soubory z .claude mezi počítači a doufat, že zůstanou v souladu, nefunguje. Plugin zabalí nastavení do jedné instalovatelné jednotky.`,
           blocks: [
-            { t: "p", h: `Plugin spojí všechno, co bys jinak sdílel/a ručně: <b>skills, subagenty, hooks a konfigurace MCP serverů</b>, k tomu i méně častou výbavu jako servery pro language server protocol (LSP), monitory na pozadí, motivy a výřez ze <code>settings.json</code>. Jedna verze, jedna instalace.` },
+            { t: "p", h: `Plugin spojí <b>skills, subagenty, hooks a konfigurace MCP serverů</b>, k tomu i méně častou výbavu jako servery pro language server protocol (LSP), monitory na pozadí, motivy a výřez ze <code>settings.json</code>. Jedna verze, jedna instalace.` },
             { t: "ex", title: "Ukázka: instalace pluginu", turns: [
               { who: "user", mono: true, text: `/plugin install github@claude-plugins-official` }
-            ], note: `Příkaz nejdřív otevře podrobnosti pluginu, abys ho prohlédl/a a vybral/a rozsah (scope). Pak ho Claude Code nainstaluje a vypíše krátké shrnutí: buď je plugin v sezení už aktivní, nebo zmíní <code>/reload-plugins</code> a reload provede sám. Zasáhneš, jen když reload varuje, že by další zpráva znovu načetla celý rozhovor. Pak plugin aktivuj příkazem <code>/reload-plugins --force</code>.` },
-            { t: "p", h: `Pro tým je lepší jednou přidat soukromý <b>marketplace</b>, sdílený zdroj, přes který se pluginy hledají: <code>/plugin marketplace add your-org/claude-plugins</code>. Každá další instalace jde přes něj, takže objevování, sledování verzí a aktualizace máš na jednom místě. Co marketplace nabízejí, prohlédneš v záložce Discover.` },
+            ], note: `Příkaz nejdřív otevře podrobnosti pluginu, abys ho prohlédl/a a vybral/a rozsah (scope). Pak ho Claude Code nainstaluje a buď je plugin hned aktivní, nebo Claude Code sám provede <code>/reload-plugins</code>. Zasáhneš, jen když reload varuje, že by další zpráva znovu načetla celý rozhovor: pak plugin aktivuj přes <code>/reload-plugins --force</code>.` },
+            { t: "p", h: `Tým si jednou přidá soukromý <b>marketplace</b>, sdílený zdroj pluginů: <code>/plugin marketplace add your-org/claude-plugins</code>. Každá další instalace jde přes něj, takže objevování, sledování verzí i aktualizace jsou na jednom místě. Nabídku prohlédneš v záložce Discover.` },
             { t: "h", x: "Než nainstaluješ, čti" },
-            { t: "warn", h: `Plugin spouští kód na tvém počítači s tvými oprávněními a jeho hooks se spustí při každém odpovídajícím volání nástroje. Instaluješ ho kvůli skills? Dostaneš i jeho PreToolUse a Stop hooky, ať jsi je četl/a, nebo ne. Komunitní plugin může mít Stop hook, který pokaždé volá nějakou adresu na síti, a nic v tvé konfiguraci tě nevaruje.` },
-            { t: "p", h: `Podrobnosti pluginu ukážou, co se nainstaluje, odhad, kolik kontextu zabere, a jasné upozornění, že Anthropic nekontroluje obsah pluginů třetích stran. Na komunitní marketplace se plugin dostane tak, že ho autor pošle Anthropicu. Oficiální marketplace se kurátoruje samostatně. Být v seznamu ale neznamená být důvěryhodný: pluginy instaluj a marketplace přidávej jen ze zdrojů, kterým opravdu věříš.` },
+            { t: "warn", h: `Plugin spouští kód s tvými oprávněními a jeho hooks běží při každém odpovídajícím volání nástroje. Instaluješ ho kvůli skills? Dostaneš i jeho PreToolUse a Stop hooky. Komunitní plugin může mít Stop hook, který pokaždé volá adresu na síti, a tvoje konfigurace tě nevaruje. Podrobnosti pluginu ukážou, co se nainstaluje, odhad zabraného kontextu a upozornění, že Anthropic obsah pluginů třetích stran nekontroluje. Na komunitní marketplace se plugin dostane tak, že ho autor pošle Anthropicu, oficiální marketplace se kurátoruje zvlášť. Být v seznamu ale neznamená být důvěryhodný: pluginy instaluj a marketplace přidávej jen ze zdrojů, kterým opravdu věříš.` },
             { t: "h", x: "Komponenty běží vedle tvých" },
             { t: "ul", items: [
-              `<b>Hooks se sčítají.</b> PreToolUse hook pluginu i tvůj vlastní se spustí při každém volání nástroje, žádný nenahradí druhý.`,
-              `<b>Skills, agenti a příkazy</b> mají jmenný prostor podle názvu pluginu, takže se s tvými nikdy nepotkají.`,
-              `<b>settings.json pluginu</b> je úzký: Claude Code z něj respektuje jen dva klíče, <code>agent</code> a klíč stavového řádku subagentů. Klíč <code>agent</code> ale povýší jednoho ze subagentů pluginu do hlavního vlákna, i s jeho systémovým promptem, omezením nástrojů a modelem. Zapnutí pluginu tak může změnit výchozí chování Claude Code.`,
-              `Vše, co plugin přidal, uvidíš, spravuješ a odinstaluješ v panelu pluginů.`
+              `<b>Hooks se sčítají.</b> PreToolUse hook pluginu i tvůj vlastní se spustí oba, žádný nenahradí druhý.`,
+              `<b>Skills, agenti a příkazy</b> mají jmenný prostor podle názvu pluginu, takže se s tvými nepotkají.`,
+              `Ze <b>settings.json pluginu</b> platí jen klíč <code>agent</code> a klíč stavového řádku subagentů. Klíč <code>agent</code> ale povýší subagenta pluginu do hlavního vlákna i s jeho systémovým promptem, omezením nástrojů a modelem. Zapnutí pluginu tak může změnit výchozí chování Claude Code.`,
+              `Vše, co plugin přidal, spravuješ a odinstaluješ v panelu pluginů.`
             ] },
             { t: "h", x: "Zabal vlastní plugin" },
-            { t: "p", h: `Funguje ti adresář .claude? Zabal ho, nic nepřestavuj. Plugin používá stejný tvar: jedna složka na každý skill, jeden markdown soubor na každého subagenta ve složce <code>agents</code>, <code>hooks/hooks.json</code> a <code>.mcp.json</code> v kořeni pluginu. Claude Code komponenty najde podle konvence.` },
+            { t: "p", h: `Funguje ti adresář .claude? Zabal ho tak, jak je. Plugin má stejný tvar: složka na každý skill, markdown soubor na každého subagenta ve složce <code>agents</code>, <code>hooks/hooks.json</code> a <code>.mcp.json</code> v kořeni pluginu. Claude Code komponenty najde podle konvence.` },
             { t: "ex", title: "Ukázka: manifest pluginu", turns: [
               { who: "sys", mono: true, text: `// .claude-plugin/plugin.json
 {
@@ -452,8 +435,7 @@ claude --resume "$(jq -r .session_id /tmp/plan.json)"` }
   "description": "Revize repozitáře SVG Splitter",
   "author": { "name": "Tým platformy" }
 }` }
-            ], note: `Manifest je volitelný, bez něj Claude Code najde komponenty podle struktury složek. Jediné povinné pole je <code>name</code>: tvoří jmenný prostor, takže skill z tohoto pluginu se spouští jako <code>/svg-splitter-review:&lt;název-skillu&gt;</code>. Verzuj plugin jako každou jinou závislost, na tom stojí aktualizace a sledování verzí v týmu.` },
-            { t: "key", h: `Plugin používáš? Než ho nainstaluješ, prohlédni si jeho hooks, agenty a MCP servery. Plugin stavíš? Zabal .claude, jakmile funguje: jeden manifest, jedna instalace.` }
+            ], note: `Manifest je volitelný. Povinné je jen <code>name</code>, které tvoří jmenný prostor: skill z tohoto pluginu se spouští jako <code>/svg-splitter-review:&lt;název-skillu&gt;</code>. Verzuj plugin jako každou jinou závislost, na tom stojí aktualizace v týmu.` }
           ],
           quiz: [
             { q: "Co dostaneš, když nainstaluješ plugin kvůli jeho skills?", o: ["Jen skills", "Skills i všechny jeho hooks, agenty a MCP servery", "Skills a kopii repozitáře autora"], a: 1, why: "Plugin je jedna jednotka. Jeho hooks běží s tvými oprávněními, i když jsi je nečetl/a." },
