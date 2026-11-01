@@ -149,6 +149,11 @@ function courseLessons(c) { return c.lessons; }
 function courseDone(c) { return c.lessons.filter(l => store.done[l.id]).length; }
 function courseProgress(c) { return c.lessons.length ? courseDone(c) / c.lessons.length : 0; }
 function isCourseDone(c) { return c.lessons.length > 0 && courseDone(c) === c.lessons.length; }
+// štítek „nové“: kurz přidaný (pole added) za posledních 60 dní, který ještě nezačal
+function isNewCourse(c) {
+  return !!c.added && courseDone(c) === 0 && addDays(c.added, 60) >= todayKey();
+}
+const NEW_CHIP = ` <span class="chip accent">nové</span>`;
 function nextLessonIn(c) { return c.lessons.find(l => !store.done[l.id]) || null; }
 function nextAfter(l) { return l.course.lessons[l.course.lessons.indexOf(l) + 1] || null; }
 function prevBefore(l) { return l.course.lessons[l.course.lessons.indexOf(l) - 1] || null; }
@@ -367,7 +372,7 @@ function viewToday(view) {
   COURSES.forEach(c => {
     const p = courseProgress(c);
     html += `<a class="item" href="#/kurz/${c.id}"><span class="emoji">${c.emoji}</span>
-      <span class="grow"><span class="ttl">${esc(c.title)}</span>
+      <span class="grow"><span class="ttl">${esc(c.title)}${isNewCourse(c) ? NEW_CHIP : ""}</span>
       <div class="progress ${p >= 1 ? "ok" : ""}" style="margin-top:6px"><i style="width:${Math.round(p * 100)}%"></i></div></span>
       <span class="chip ${p >= 1 ? "ok" : ""}">${courseDone(c)}/${c.lessons.length}</span></a>`;
   });
@@ -489,7 +494,7 @@ function viewCourses(view) {
       const p = courseProgress(c);
       const mins = c.lessons.reduce((s, l) => s + (l.minutes || 3), 0);
       html += `<a class="item" href="#/kurz/${c.id}"><span class="emoji">${c.emoji}</span>
-        <span class="grow"><span class="ttl">${esc(c.title)}</span>
+        <span class="grow"><span class="ttl">${esc(c.title)}${isNewCourse(c) ? NEW_CHIP : ""}</span>
         <span class="meta">${esc(c.level)} · ${c.lessons.length} lekcí · ~${mins} min</span>
         <div class="progress ${p >= 1 ? "ok" : ""}" style="margin-top:6px"><i style="width:${Math.round(p * 100)}%"></i></div></span>
         <span class="chip ${p >= 1 ? "ok" : ""}">${p >= 1 ? "✓" : Math.round(p * 100) + " %"}</span></a>`;
