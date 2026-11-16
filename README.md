@@ -12,6 +12,7 @@ kořenová appka „pohltila“ podsložky (Android by otevíral appky v podslo�
 | Složka | Aplikace | Adresa |
 |---|---|---|
 | `trenink/` | 🏋️ Trénink: tréninkový deník (plán A1/B/A2, řízený trénink, hormonální jóga, historie, statistiky) | https://honzajscz.github.io/learning-apps/trenink/ |
+| `konjunktiv/` | 🇩🇪 Konjunktiv I a II: německá gramatika česky podle materiálů učitele (výklad, tabulky sloves, cvičení, kvíz) | https://honzajscz.github.io/learning-apps/konjunktiv/ |
 | `claude-akademie/` | 🎓 Claude Akademie: česká učebnice práce s Claude podle [Claude Academy](https://academy.claude.com/) | https://honzajscz.github.io/learning-apps/claude-akademie/ |
 
 ## Pravidla pro přidání další appky
@@ -38,6 +39,14 @@ Přesunuto z repozitáře `workouts`; stará adresa https://honzajscz.github.io/
 
 Obsah lekcí je v `claude-akademie/kurzy/*.js`, formát je popsaný v `kurzy/_index.js`.
 Po změně souborů zvyš verzi cache v `claude-akademie/sw.js`.
+
+## Konjunktiv I a II
+
+- 7 lekcí výkladu v češtině s českým kontextem a rychlými kontrolními otázkami (podle učebnice DaF, kap. 10, s. 241 až 250)
+- interaktivní tabulky 24 sloves (indikativ, K I, K II, co použít v nepřímé řeči) s režimem procvičování
+- cvičení 63 až 66 z cvičebnice s řešením + 7 sad navíc, kvíz, opakování chyb, předčítání německých vět
+
+Obsah je v `konjunktiv/data.js` (formát popsaný v komentáři na začátku). Po změně souborů zvyš verzi cache v `konjunktiv/sw.js`.
 
 ## Nasazení
 
