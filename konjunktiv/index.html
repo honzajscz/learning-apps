@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Konjunktiv I a II</title>
+  <meta name="description" content="Konjunktiv I a II česky podle materiálů učitele: výklad s českým kontextem, tabulky sloves, cvičení z učebnice a kvíz. Funguje offline.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#11181a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Konjunktiv">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <a id="h-back" class="back" href="#/" style="display:none" aria-label="Zpět">‹</a>
+    <div class="head-txt">
+      <h1 id="h-title">Konjunktiv I a II</h1>
+      <p class="sub" id="h-sub"></p>
+    </div>
+  </header>
+
+  <main id="view">
+    <noscript><p style="padding:20px">Aplikace potřebuje zapnutý JavaScript.</p></noscript>
+  </main>
+
+  <nav class="tabbar">
+    <a href="#/" data-tab="domu"><span class="ico">🏠</span>Domů</a>
+    <a href="#/vyklad" data-tab="vyklad"><span class="ico">📖</span>Výklad</a>
+    <a href="#/tabulky" data-tab="tabulky"><span class="ico">🔤</span>Tabulky</a>
+    <a href="#/cviceni" data-tab="cviceni"><span class="ico">✍️</span>Cvičení</a>
+    <a href="#/kviz" data-tab="kviz"><span class="ico">🎯</span>Kvíz</a>
+  </nav>
+
+  <div id="toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
