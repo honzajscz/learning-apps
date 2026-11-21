@@ -13,7 +13,7 @@ kořenová appka „pohltila“ podsložky (Android by otevíral appky v podslo�
 |---|---|---|
 | `trenink/` | 🏋️ Trénink: tréninkový deník (plán A1/B/A2, řízený trénink, hormonální jóga, historie, statistiky) | https://honzajscz.github.io/learning-apps/trenink/ |
 | `konjunktiv/` | 🇩🇪 Konjunktiv I a II: německá gramatika česky podle materiálů učitele (výklad, tabulky sloves, cvičení, kvíz) | https://honzajscz.github.io/learning-apps/konjunktiv/ |
-| `claude-akademie/` | 🎓 Claude Akademie: česká učebnice práce s Claude podle [Claude Academy](https://academy.claude.com/) | https://honzajscz.github.io/learning-apps/claude-akademie/ |
+| `claude-akademie/` | 🎓 Claude Akademie: jak naplno využít Claude Desktop a Claude pro Android (praktické kurzy, checklist nastavení, základy podle [Claude Academy](https://academy.claude.com/)) | https://honzajscz.github.io/learning-apps/claude-akademie/ |
 
 ## Pravidla pro přidání další appky
 
@@ -32,7 +32,11 @@ Přesunuto z repozitáře `workouts`; stará adresa https://honzajscz.github.io/
 
 ## Claude Akademie
 
-- 8 kurzů, 83 lekcí po 3 až 6 minutách; praktická cvičení z originálu nahrazena komentovanými ukázkami
+- zaměřená na co nejlepší používání aplikací **Claude Desktop** (Mac, Windows) a **Claude pro Android**
+- 3 praktické kurzy (Desktop, Android, propojení obou: Dispatch, cloud, rutiny, bezpečnost) podle help centra Anthropic, stav listopad 2026
+- checklist nastavení obou aplikací (20 kroků s odkazy na lekce)
+- dalších 8 kurzů podle Claude Academy (základy, AI zběhlost, Claude Code, Cowork, MCP, subagenti, skills); praktická cvičení nahrazena komentovanými ukázkami
+- celkem 11 kurzů, 108 lekcí po 3 až 6 minutách
 - kontrolní otázky s vysvětlením, kartičky s rozloženým opakováním, rychlý test, slovníček
 - denní cíl, série dní, heatmapa, odznaky, poznámky, záložky, předčítání nahlas
 - offline režim, export/import pokroku (data zůstávají v prohlížeči)
