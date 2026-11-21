@@ -1,7 +1,7 @@
 {
   "name": "Claude Akademie",
   "short_name": "Akademie",
-  "description": "Česká učebnice Claude po malých kouscích: kurzy, kvízy, kartičky a sledování pokroku.",
+  "description": "Jak naplno využít Claude Desktop a Claude pro Android: praktické kurzy, checklist nastavení, kvízy a kartičky.",
   "lang": "cs",
   "start_url": "./",
   "scope": "./",
