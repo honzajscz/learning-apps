@@ -4,7 +4,7 @@
    ========================================================= */
 "use strict";
 
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "1.1.1";
 const STORAGE_KEY = "claude-akademie.v1";
 const EXPORT_APP_ID = "claude-akademie";
 
@@ -20,6 +20,7 @@ const store = {
   cards: {},       // cardId -> { n, iv, ef, due }
   days: {},        // "YYYY-MM-DD" -> počet dokončených lekcí
   tests: [],       // rychlé testy { at, score, total }
+  setup: {},       // checklist nastavení: itemId -> ISO datum odškrtnutí
   last: null,      // naposledy otevřená lekce
   settings: Object.assign({}, DEFAULT_SETTINGS)
 };
@@ -29,7 +30,7 @@ function loadStore() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     const d = JSON.parse(raw);
-    for (const k of ["done", "quiz", "notes", "cards", "days"]) {
+    for (const k of ["done", "quiz", "notes", "cards", "days", "setup"]) {
       if (d[k] && typeof d[k] === "object") store[k] = d[k];
     }
     if (Array.isArray(d.marks)) store.marks = d.marks;
@@ -124,9 +125,10 @@ function confirmSheet(title, text, okLabel, onOk, danger) {
 
 const COURSES = AKADEMIE.courses;
 const CATEGORIES = [
-  { id: "start", title: "Začni tady", desc: "Základy pro každého, bez technických znalostí." },
+  { id: "prakticky", title: "Desktop a Android prakticky", desc: "Hlavní část: jak naplno využít aplikaci Claude pro počítač a pro Android, každou zvlášť i dohromady." },
+  { id: "start", title: "Základy práce s Claude", desc: "Jak s Claude mluvit a co od něj čekat. Platí na všech zařízeních." },
   { id: "fluency", title: "Staň se AI zběhlým", desc: "Jak přemýšlet o spolupráci s AI a jak jí důvěřovat správně." },
-  { id: "produkty", title: "Poznej produkty", desc: "Koncepty Claude Code, Cowork, MCP, subagentů a skills." }
+  { id: "produkty", title: "Poznej produkty", desc: "Hlouběji: Claude Code, Cowork, MCP, subagenti a skills (podle Claude Academy)." }
 ];
 
 const LESSONS = [];       // ploché pořadí všech lekcí
@@ -246,7 +248,8 @@ const routes = [
   { re: /^#\/opakovani$/, view: viewReview, tab: "opakovani" },
   { re: /^#\/opakovani\/test$/, view: viewQuickTest, tab: "opakovani" },
   { re: /^#\/slovnik$/, view: viewGlossary, tab: "slovnik" },
-  { re: /^#\/vice$/, view: viewMore, tab: "vice" }
+  { re: /^#\/vice$/, view: viewMore, tab: "vice" },
+  { re: /^#\/nastaveni$/, view: viewSetup, tab: "dnes" }
 ];
 
 function setHeader(title, sub, back, actions) {
@@ -311,7 +314,7 @@ function lessonItem(l, opts = {}) {
 }
 
 function viewToday(view) {
-  setHeader("Claude Akademie", "Učení po malých kouscích");
+  setHeader("Claude Akademie", "Claude Desktop a Android naplno");
   const goal = store.settings.goal;
   const today = store.days[todayKey()] || 0;
   const s = streakInfo();
@@ -343,6 +346,8 @@ function viewToday(view) {
       <p class="muted small">Zbývá udržovat znalosti: opakuj kartičky a zkoušej rychlé testy.</p></div>`;
   }
 
+  html += setupTeaser();
+
   html += `<div class="section-title">Opakování</div><div class="list">`;
   html += `<a class="item" href="#/opakovani"><span class="emoji">🔁</span>
     <span class="grow"><span class="ttl">Kartičky</span><span class="meta">${due ? plural(due, "kartička čeká", "kartičky čekají", "kartiček čeká") + " na zopakování" : (doneCount ? "Dnes nic nečeká, vše zopakováno" : "Kartičky se odemknou dokončením lekcí")}</span></span>
@@ -373,11 +378,88 @@ function viewToday(view) {
   view.innerHTML = html;
 }
 
+/* ---------------- Checklist nastavení ---------------- */
+
+const SETUP = [
+  { group: "🖥️ Claude Desktop", items: [
+    { id: "d-install", t: "Nainstalovat Claude Desktop a přihlásit se", h: "claude.com/download, stejný účet jako v telefonu", l: "dk-01" },
+    { id: "d-stable", t: "Zkontrolovat kanál vydání (Stable)", h: "Nastavení aplikace", l: "dk-01" },
+    { id: "d-quick", t: "Připnout Claude na hlavní panel jako první (Win + 1)", h: "Pravým na ikonu › Připnout na hlavní panel, přetáhnout na začátek", l: "dk-03" },
+    { id: "d-start", t: "Zapnout spouštění Claude po startu Windows", h: "Nastavení Windows › Aplikace › Po spuštění", l: "dk-03" },
+    { id: "d-os", t: "Vyzkoušet Win + Shift + S a Win + H do Claude", h: "Výřez obrazovky a diktování; čeština v Nastavení › Čas a jazyk", l: "dk-03" },
+    { id: "d-edition", t: "Zjistit edici Windows (Home, nebo Pro)", h: "Nastavení › Systém › O systému; úkoly v izolovaném prostředí chtějí Pro", l: "dk-01" },
+    { id: "d-folders", t: "Nastavit Trusted folders a Storage folder", h: "Jen pracovní složky, nic citlivého", l: "dk-04" },
+    { id: "d-mode", t: "Zvolit režim oprávnění a Always ask pro odesílání", h: "Přepínač Auto / Manual v okně zprávy", l: "dk-05" },
+    { id: "d-conn", t: "Připojit kalendář, e-mail a úložiště souborů", h: "Customize › Connectors (platí i v telefonu)", l: "dk-08" },
+    { id: "d-ext", t: "Projít desktopová rozšíření", h: "Nastavení › Desktop app › Extensions › Browse", l: "dk-08" },
+    { id: "d-instr", t: "Napsat Instructions for Claude", h: "Jazyk, tón, kdo jsi, formát odpovědí", l: "dk-09" },
+    { id: "d-memory", t: "Projít paměť", h: "Nastavení › Memory › Topics", l: "dk-09" },
+    { id: "d-sched", t: "Vytvořit první plánovaný úkol", h: "Třeba pondělní přehled týdne", l: "dk-10" }
+  ] },
+  { group: "📱 Claude pro Android", items: [
+    { id: "a-install", t: "Nainstalovat Claude z Obchodu Play a přihlásit se", h: "Stejný účet jako na počítači", l: "an-01" },
+    { id: "a-widget", t: "Přidat widget Claude na plochu", h: "Podržet plochu › Widgety › Claude", l: "an-02" },
+    { id: "a-share", t: "Připnout Claude v nabídce Sdílet", h: "Sdílet › podržet ikonu Claude › Připnout", l: "an-02" },
+    { id: "a-voice", t: "Nastavit hlas a vyzkoušet češtinu", h: "Nastavení › Voice: hands-free nebo push-to-talk", l: "an-03" },
+    { id: "a-notif", t: "Povolit notifikace", h: "Úkoly, schvalování, Dispatch", l: "an-06" },
+    { id: "a-perm", t: "Nastavit oprávnění", h: "Mikrofon, fotoaparát, kalendář; poloha jen při používání", l: "an-05" }
+  ] },
+  { group: "🔄 Dohromady", items: [
+    { id: "p-dispatch", t: "Nastavit Dispatch (pokud ho máš dostupný)", h: "Na počítači v levém panelu Dispatch › Get started", l: "dw-02" },
+    { id: "p-task", t: "Zadat první úkol z telefonu a schválit ho z notifikace", h: "Třeba výzkum s tabulkou", l: "an-06" },
+    { id: "p-usage", t: "Podívat se, kolik spotřebuješ", h: "Nastavení › Usage", l: "dw-05" }
+  ] }
+];
+const SETUP_ALL = SETUP.flatMap(g => g.items);
+
+function setupDone() { return SETUP_ALL.filter(i => store.setup[i.id]).length; }
+
+function setupTeaser() {
+  const n = setupDone(), all = SETUP_ALL.length;
+  if (n >= all) return "";
+  return `<div class="section-title">Nastavení aplikací</div><div class="list">
+    <a class="item" href="#/nastaveni"><span class="emoji">🛠️</span>
+    <span class="grow"><span class="ttl">Checklist: Desktop a Android</span>
+    <span class="meta">${n ? `${n}/${all} hotovo` : `${all} kroků, které z aplikací vytěží maximum`}</span>
+    <div class="progress" style="margin-top:6px"><i style="width:${Math.round(100 * n / all)}%"></i></div></span>
+    <span class="arrow">›</span></a></div>`;
+}
+
+function viewSetup(view) {
+  const draw = () => {
+    setHeader("Checklist nastavení", `${setupDone()}/${SETUP_ALL.length} hotovo`, "#/");
+    let html = `<p class="muted small">Projdi s aplikacemi v ruce. Odškrtnutí se ukládá v tomto prohlížeči. Odkaz › vede na lekci, která krok vysvětluje.</p>`;
+    SETUP.forEach(g => {
+      const d = g.items.filter(i => store.setup[i.id]).length;
+      html += `<div class="section-title">${esc(g.group)} <span class="chip ${d === g.items.length ? "ok" : ""}">${d}/${g.items.length}</span></div><div class="list">`;
+      g.items.forEach(i => {
+        const done = !!store.setup[i.id];
+        html += `<div class="item ${done ? "done" : ""}">
+          <button class="num" data-setup="${i.id}" aria-pressed="${done}" aria-label="${done ? "Odškrtnout" : "Označit jako hotové"}: ${esc(i.t)}" style="border:0;cursor:pointer">${done ? "✓" : ""}</button>
+          <span class="grow"><span class="ttl">${esc(i.t)}</span><span class="meta">${esc(i.h)}</span></span>
+          ${LESSON_BY_ID[i.l] ? `<a class="arrow" href="#/lekce/${i.l}" aria-label="Lekce: ${esc(LESSON_BY_ID[i.l].title)}" style="text-decoration:none">›</a>` : ""}</div>`;
+      });
+      html += `</div>`;
+    });
+    if (setupDone() === SETUP_ALL.length) {
+      html += `<div class="card center mt"><div class="em" style="font-size:40px">🎉</div><h2>Hotovo!</h2><p class="muted small mb0">Aplikace máš nastavené naplno. Jednou za měsíc projdi paměť a instrukce.</p></div>`;
+    }
+    view.innerHTML = html;
+    view.querySelectorAll("[data-setup]").forEach(b => b.onclick = () => {
+      const id = b.dataset.setup;
+      if (store.setup[id]) delete store.setup[id]; else store.setup[id] = new Date().toISOString();
+      saveStore();
+      draw();
+    });
+  };
+  draw();
+}
+
 /* ---------------- Kurzy ---------------- */
 
 function viewCourses(view) {
-  setHeader("Kurzy", `${COURSES.length} kurzů · ${LESSONS.length} lekcí · podle Claude Academy`);
-  let html = "";
+  setHeader("Kurzy", `${COURSES.length} kurzů · ${LESSONS.length} lekcí`);
+  let html = setupTeaser();
   CATEGORIES.forEach(cat => {
     const cs = COURSES.filter(c => c.category === cat.id);
     if (!cs.length) return;
@@ -409,7 +491,7 @@ function viewCourse(view, id) {
     <div class="progress ${p >= 1 ? "ok" : ""} mt"><i style="width:${Math.round(p * 100)}%"></i></div>
     ${next ? `<a class="btn primary block mt" href="#/lekce/${next.id}">${courseDone(c) ? "Pokračovat: " : "Začít: "}${esc(next.title)}</a>` :
       `<div class="done-banner"><div class="em">🏅</div><b>Kurz dokončen</b><p class="muted small mb0">Odznak najdeš ve „Více“. Lekce si můžeš kdykoli znovu projít.</p></div>`}
-    ${c.source ? `<p class="tiny muted mt mb0">Zpracováno podle originálního kurzu: <a href="${esc(c.source)}" target="_blank" rel="noopener">academy.claude.com</a></p>` : ""}
+    ${c.source ? `<p class="tiny muted mt mb0">${c.source.includes("academy.claude.com") ? "Zpracováno podle originálního kurzu" : "Hlavní zdroj"}: <a href="${esc(c.source)}" target="_blank" rel="noopener">${esc(new URL(c.source).hostname)}</a></p>` : ""}
   </div>`;
   c.modules.forEach(m => {
     html += `<div class="section-title">${esc(m.title)}</div><div class="list">`;
@@ -823,8 +905,8 @@ function viewMore(view) {
 
     <div class="section-title">O aplikaci</div>
     <div class="card small muted">
-      <p>Česká učebnice Claude po malých kouscích, zpracovaná podle kurzů <a href="https://academy.claude.com/" target="_blank" rel="noopener">Claude Academy</a>. Původní kurzy jsou v angličtině a obsahují praktická cvičení. Zde jsou cvičení nahrazena podrobnými ukázkami, aby šlo vše projít jen čtením, třeba v tramvaji.</p>
-      <p>Názvy tlačítek a umístění funkcí v aplikacích Claude se časem mění. Popisy odpovídají stavu v době psaní (září 2026). Podstata, tedy jak s Claude pracovat, aby to fungovalo, platí dál.</p>
+      <p>Česká učebnice, která tě připraví na co nejlepší používání aplikací <b>Claude Desktop</b> (hlavně Windows, poznámky k Macu) a <b>Claude pro Android</b>. Hlavní kurzy vycházejí z help centra a oznámení Anthropic, základy a hlubší kurzy z <a href="https://academy.claude.com/" target="_blank" rel="noopener">Claude Academy</a>. Cvičení jsou nahrazena ukázkami, aby šlo vše projít jen čtením, třeba v tramvaji. Checklist nastavení pak projdeš přímo v aplikacích.</p>
+      <p>Názvy tlačítek a umístění funkcí v aplikacích Claude se často mění a novinky se zapínají postupně. Kurzy Desktop a Android odpovídají stavu z listopadu 2026, ostatní kurzy září 2026. Podstata, tedy jak s Claude pracovat, aby to fungovalo, platí dál.</p>
       <p class="mb0">Verze ${APP_VERSION}. Data neopouštějí tvůj prohlížeč.</p>
     </div>`;
 

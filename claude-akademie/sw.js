@@ -1,7 +1,7 @@
 /* Service worker Claude Akademie: po prvním načtení funguje appka i offline.
    Strategie network-first: s připojením se vždy načte nejnovější verze,
    bez připojení poslední stažená kopie. Při změně souborů zvyš verzi cache. */
-const CACHE = "claude-akademie-v2";
+const CACHE = "claude-akademie-v4";
 
 const ASSETS = [
   "./",
@@ -9,6 +9,9 @@ const ASSETS = [
   "./styles.css",
   "./app.js",
   "./kurzy/_index.js",
+  "./kurzy/desktop.js",
+  "./kurzy/android.js",
+  "./kurzy/propojeni.js",
   "./kurzy/claude-101.js",
   "./kurzy/ai-fluency.js",
   "./kurzy/schopnosti-a-limity.js",

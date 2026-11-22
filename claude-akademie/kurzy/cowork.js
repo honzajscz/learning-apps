@@ -17,6 +17,7 @@ AKADEMIE.add({
           minutes: 4,
           lead: `Cowork je pracovní sezení: dáš Claude úkol a přístup ke složce, on si naplánuje kroky, pracuje se soubory a vrátí ti hotový výsledek. Chat odpovídá, Cowork vykonává.`,
           blocks: [
+            { t: "info", title: "Aktualizace (listopad 2026)", h: `Od září 2026 se Cowork a chat postupně spojují do jedné konverzace: režim už nevybíráš, Claude sám pozná, kdy jde o úkol. Princip „Claude drží soubory a vykonává“ z tohoto kurzu platí dál. Aktuální ovládání najdeš v kurzu <a href="#/kurz/desktop">Claude Desktop naplno</a>.` },
             { t: "cmp",
               bad: { lbl: "Chat", h: `Ty držíš soubory. Kopíruješ obsah dovnitř, výsledek ven. Jeden krok za druhým.` },
               good: { lbl: "Cowork", h: `Claude drží soubory. Otevírá je, vytváří nové, ukládá výsledky do složky. Ty sleduješ postup a schvaluješ.` } },
@@ -52,7 +53,7 @@ AKADEMIE.add({
           lead: `Co je potřeba, než Cowork poprvé použiješ, a co při tom rozhoduješ.`,
           blocks: [
             { t: "steps", items: [
-              `Nainstaluj <b>aplikaci Claude pro počítač</b> (Cowork je v ní záložka; ve webové verzi nebo na mobilu není).`,
+              `Nainstaluj <b>aplikaci Claude pro počítač</b>. Práce s lokálními složkami běží jen v ní; úkoly v cloudu jdou spustit i z webu a z telefonu.`,
               `Otevři <b>Cowork</b> a vyber <b>složku</b>, se kterou má Claude pracovat. Přístup má jen do ní (a podsložek), ne k celému disku.`,
               `Rozhodni, jaké <b>konektory</b> (Drive, kalendář, e-mail…) mají být v sezení dostupné.`,
               `Zadej úkol. Claude nejprve ukáže <b>plán</b>; můžeš ho upravit.`
@@ -70,7 +71,7 @@ AKADEMIE.add({
             { q: "Proč pracovat v kopii složky?", o: ["Je to rychlejší", "Originály zůstanou netknuté, i kdyby se něco pokazilo", "Cowork jinak nefunguje"], a: 1, why: "Bezpečný zvyk při práci s automatizací." }
           ],
           cards: [
-            { f: "Nastavení Cowork", b: "Desktopová aplikace → záložka Cowork → vybrat složku → povolit konektory → zadat úkol a schválit plán." }
+            { f: "Nastavení Cowork", b: "Desktopová aplikace → povolit složku → připojit konektory → zadat úkol a schválit plán." }
           ],
           terms: []
         },
