@@ -4,7 +4,7 @@
    ========================================================= */
 "use strict";
 
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.1.1";
 const STORAGE_KEY = "claude-akademie.v1";
 const EXPORT_APP_ID = "claude-akademie";
 
@@ -384,8 +384,10 @@ const SETUP = [
   { group: "🖥️ Claude Desktop", items: [
     { id: "d-install", t: "Nainstalovat Claude Desktop a přihlásit se", h: "claude.com/download, stejný účet jako v telefonu", l: "dk-01" },
     { id: "d-stable", t: "Zkontrolovat kanál vydání (Stable)", h: "Nastavení aplikace", l: "dk-01" },
-    { id: "d-quick", t: "Rychlý přístup: Mac Quick entry, Windows připnout na panel", h: "Mac: Option Option, Nastavení › Desktop app. Windows: Win + číslo", l: "dk-03" },
-    { id: "d-os", t: "Povolit oprávnění systému", h: "macOS: Zpřístupnění, Nahrávání obrazovky, případně Rozpoznávání řeči", l: "dk-03" },
+    { id: "d-quick", t: "Připnout Claude na hlavní panel jako první (Win + 1)", h: "Pravým na ikonu › Připnout na hlavní panel, přetáhnout na začátek", l: "dk-03" },
+    { id: "d-start", t: "Zapnout spouštění Claude po startu Windows", h: "Nastavení Windows › Aplikace › Po spuštění", l: "dk-03" },
+    { id: "d-os", t: "Vyzkoušet Win + Shift + S a Win + H do Claude", h: "Výřez obrazovky a diktování; čeština v Nastavení › Čas a jazyk", l: "dk-03" },
+    { id: "d-edition", t: "Zjistit edici Windows (Home, nebo Pro)", h: "Nastavení › Systém › O systému; úkoly v izolovaném prostředí chtějí Pro", l: "dk-01" },
     { id: "d-folders", t: "Nastavit Trusted folders a Storage folder", h: "Jen pracovní složky, nic citlivého", l: "dk-04" },
     { id: "d-mode", t: "Zvolit režim oprávnění a Always ask pro odesílání", h: "Přepínač Auto / Manual v okně zprávy", l: "dk-05" },
     { id: "d-conn", t: "Připojit kalendář, e-mail a úložiště souborů", h: "Customize › Connectors (platí i v telefonu)", l: "dk-08" },
@@ -903,7 +905,7 @@ function viewMore(view) {
 
     <div class="section-title">O aplikaci</div>
     <div class="card small muted">
-      <p>Česká učebnice, která tě připraví na co nejlepší používání aplikací <b>Claude Desktop</b> (Mac, Windows) a <b>Claude pro Android</b>. Hlavní kurzy vycházejí z help centra a oznámení Anthropic, základy a hlubší kurzy z <a href="https://academy.claude.com/" target="_blank" rel="noopener">Claude Academy</a>. Cvičení jsou nahrazena ukázkami, aby šlo vše projít jen čtením, třeba v tramvaji. Checklist nastavení pak projdeš přímo v aplikacích.</p>
+      <p>Česká učebnice, která tě připraví na co nejlepší používání aplikací <b>Claude Desktop</b> (hlavně Windows, poznámky k Macu) a <b>Claude pro Android</b>. Hlavní kurzy vycházejí z help centra a oznámení Anthropic, základy a hlubší kurzy z <a href="https://academy.claude.com/" target="_blank" rel="noopener">Claude Academy</a>. Cvičení jsou nahrazena ukázkami, aby šlo vše projít jen čtením, třeba v tramvaji. Checklist nastavení pak projdeš přímo v aplikacích.</p>
       <p>Názvy tlačítek a umístění funkcí v aplikacích Claude se často mění a novinky se zapínají postupně. Kurzy Desktop a Android odpovídají stavu z listopadu 2026, ostatní kurzy září 2026. Podstata, tedy jak s Claude pracovat, aby to fungovalo, platí dál.</p>
       <p class="mb0">Verze ${APP_VERSION}. Data neopouštějí tvůj prohlížeč.</p>
     </div>`;

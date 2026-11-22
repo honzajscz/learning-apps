@@ -34,7 +34,7 @@ Přesunuto z repozitáře `workouts`; stará adresa https://honzajscz.github.io/
 
 - zaměřená na co nejlepší používání aplikací **Claude Desktop** (Mac, Windows) a **Claude pro Android**
 - 3 praktické kurzy (Desktop, Android, propojení obou: Dispatch, cloud, rutiny, bezpečnost) podle help centra Anthropic, stav listopad 2026
-- checklist nastavení obou aplikací (20 kroků s odkazy na lekce)
+- checklist nastavení obou aplikací (22 kroků s odkazy na lekce), desktop psaný hlavně pro Windows
 - dalších 8 kurzů podle Claude Academy (základy, AI zběhlost, Claude Code, Cowork, MCP, subagenti, skills); praktická cvičení nahrazena komentovanými ukázkami
 - celkem 11 kurzů, 108 lekcí po 3 až 6 minutách
 - kontrolní otázky s vysvětlením, kartičky s rozloženým opakováním, rychlý test, slovníček

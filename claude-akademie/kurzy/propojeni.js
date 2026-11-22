@@ -20,7 +20,7 @@ AKADEMIE.add({
             { t: "table", head: ["Všude stejné (účet)", "Jen na zařízení"], rows: [
               ["Konverzace a úkoly (Recents)", "Lokální soubory a důvěryhodné složky (desktop)"],
               ["Projekty a artefakty", "Desktopová rozšíření (lokální MCP)"],
-              ["Konektory, skills, pluginy", "Oprávnění macOS a Windows, zkratky Quick entry"],
+              ["Konektory, skills, pluginy", "Oprávnění Windows, připnutí na panel, spouštění po startu"],
               ["Paměť a Instructions for Claude", "Oprávnění Androidu, widget, nastavení hlasu"],
               ["Spotřeba limitu", "Úkoly běžící na počítači (běží jen, když je zapnutý)"]
             ] },
@@ -43,14 +43,14 @@ AKADEMIE.add({
           blocks: [
             { t: "h", x: "Nastavení" },
             { t: "steps", items: [
-              `Aktualizuj Claude Desktop (Mac, Windows x64 nebo Linux) i aplikaci pro Android.`,
+              `Aktualizuj Claude Desktop (Windows x64, Mac nebo Linux) i aplikaci pro Android.`,
               `Na počítači otevři Claude a v levém panelu klikni na <b>Dispatch</b> › <b>Get started</b>.`,
               `Zapni <b>přístup k souborům</b> a <b>udržování počítače vzhůru</b> (keep awake), pak <b>Finish setup</b>.`,
               `V telefonu otevři sekci Dispatch a napiš první úkol.`
             ] },
             { t: "h", x: "Co vědět" },
             { t: "ul", items: [
-              `Počítač musí být <b>vzhůru a s otevřenou aplikací</b>. Na práci se zaklapnutým notebookem použij cloudový úkol.`,
+              `Počítač musí být <b>vzhůru a s otevřenou aplikací</b>. Na Windows zkontroluj i <b>Nastavení › Systém › Napájení</b> (kdy se uspí, co udělá zaklapnutí víka) a spouštění Claude po startu. Na práci se zaklapnutým notebookem použij cloudový úkol.`,
               `Je to <b>jedno vlákno</b>, více paralelních Dispatch konverzací nejde.`,
               `Úkoly kolem kódu běží v Claude Code, ostatní jako běžný úkol; uvidíš je v postranních panelech na počítači.`,
               `Přijde <b>notifikace</b>, když je úkol hotový nebo potřebuje souhlas.`,
@@ -84,8 +84,8 @@ AKADEMIE.add({
           lead: `Rozhodovací tabulka pro běžné situace. Po pár týdnech ji budeš mít v hlavě.`,
           blocks: [
             { t: "table", head: ["Situace", "Kde a jak"], rows: [
-              ["Rychlá otázka u počítače", "Mac: Option Option. Windows: Win + číslo"],
-              ["Chyba nebo graf na obrazovce", "Quick entry se snímkem okna (Mac) nebo Win + Shift + S a vložit"],
+              ["Rychlá otázka u počítače", "Win + 1 (Claude připnutý na panelu)"],
+              ["Chyba nebo graf na obrazovce", "Win + Shift + S, Win + 1, Ctrl + V"],
               ["Nápad při chůzi", "Android widget 🎤, diktování"],
               ["Přemýšlení nahlas, procvičení jazyka", "Android hlasový režim"],
               ["Něco vidím (dopis, štítek, tabule)", "Android widget 📷"],
@@ -99,7 +99,7 @@ AKADEMIE.add({
             ] }
           ],
           quiz: [
-            { q: "Na Macu vidíš nesrozumitelnou chybovou hlášku. Nejrychlejší cesta?", o: ["Opsat ji do telefonu", "Option Option a kliknout na okno s chybou", "Poslat si ji e-mailem"], a: 1, why: "Quick entry přiloží celé okno jedním klikem." },
+            { q: "Na Windows vidíš nesrozumitelnou chybovou hlášku. Nejrychlejší cesta?", o: ["Opsat ji do telefonu", "Win + Shift + S, Win + 1, Ctrl + V", "Poslat si ji e-mailem"], a: 1, why: "Výřez jde do schránky a vložíš ho rovnou do zprávy." },
             { q: "Ve vlaku chceš z PDF v telefonu výtah. Jak?", o: ["Sdílet › Claude", "Dispatch", "Počkat na počítač"], a: 0, why: "PDF je v telefonu, stačí ho sdílet do Claude." }
           ],
           cards: [
@@ -193,9 +193,9 @@ AKADEMIE.add({
           lead: `Nejčastější problémy a rychlá řešení.`,
           blocks: [
             { t: "table", head: ["Problém", "Řešení"], rows: [
-              ["Dispatch neodpovídá", "Je počítač vzhůru a Claude Desktop otevřený? Zapnutý keep awake? Internet na obou?"],
-              ["Quick entry se neotevře", "Běží aplikace? Oprávnění Zpřístupnění v macOS? Zkratka v Nastavení › Desktop app"],
-              ["Snímek obrazovky je černý", "Povolit Nahrávání obrazovky v macOS a restartovat Claude"],
+              ["Dispatch neodpovídá", "Je počítač vzhůru a Claude Desktop otevřený? Zapnutý keep awake? Nespí Windows (Nastavení › Systém › Napájení)? Internet na obou?"],
+              ["Win + 1 otevře jinou aplikaci", "Přetáhni ikonu Claude na hlavním panelu na první místo"],
+              ["Win + H nepíše česky", "Nastavení Windows › Čas a jazyk › přidat češtinu, přepnout jazyk vstupu"],
               ["Konektor hlásí chybu", "Customize › Connectors: odpojit a znovu připojit"],
               ["Rozšíření nefunguje", "Stránka Extensions: logy, případně přeinstalovat .mcpb"],
               ["Nevidím novou funkci", "Aktualizovat aplikaci; funkce se zapínají postupně podle účtů"],

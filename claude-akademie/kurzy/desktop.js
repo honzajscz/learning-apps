@@ -5,7 +5,7 @@ AKADEMIE.add({
   title: "Claude Desktop naplno",
   category: "prakticky",
   level: "Prakticky",
-  desc: "Aplikace pro Mac a Windows do detailu: jedna konverzace pro otázky i velké úkoly, rychlé zadání zkratkou, práce se soubory a počítačem, oprávnění, rozšíření, paměť a plánované úkoly.",
+  desc: "Aplikace pro Windows (a Mac) do detailu: jedna konverzace pro otázky i velké úkoly, rychlé zadání zkratkou, práce se soubory a počítačem, oprávnění, rozšíření, paměť a plánované úkoly.",
   source: "https://support.claude.com/en/articles/16761823",
   modules: [
     {
@@ -20,7 +20,7 @@ AKADEMIE.add({
             { t: "h", x: "Co umí jen (nebo hlavně) desktop" },
             { t: "ul", items: [
               `<b>Práce s lokálními soubory</b>: Claude otevírá, vytváří a ukládá soubory ve složkách, které mu povolíš.`,
-              `<b>Rychlé zadání zkratkou</b> odkudkoli (na Macu dvojí stisk Option), včetně snímku obrazovky a diktování.`,
+              `<b>Rychlý přístup z klávesnice</b>: na Windows Win + číslo, výřez obrazovky a diktování (na Macu navíc okénko Quick entry).`,
               `<b>Ovládání počítače</b> (computer use): Claude umí klikat, psát a přepínat okna v aplikacích, ke kterým nemá konektor.`,
               `<b>Desktopová rozšíření</b>: lokální MCP servery instalované jedním klikem (přístup k aplikacím a datům v počítači).`,
               `<b>Cíl pro Dispatch</b>: z telefonu zadáš úkol a ten se provede na tvém počítači.`,
@@ -28,12 +28,12 @@ AKADEMIE.add({
             ] },
             { t: "h", x: "Instalace" },
             { t: "steps", items: [
-              `Stáhni aplikaci z <b>claude.com/download</b> (Mac, Windows; Dispatch podporuje i Linux) a přihlas se stejným účtem jako na webu a v telefonu.`,
-              `Při prvním spuštění Mac nabídne zapnutí zkratek pro rychlé zadání. Zapni hlavní zkratku hned, hlasovou podle chuti (lekce 3).`,
+              `Stáhni aplikaci z <b>claude.com/download</b> (Windows 10 a novější x64, Mac; Dispatch podporuje i Linux) a přihlas se stejným účtem jako na webu a v telefonu.`,
+              `Připni Claude na hlavní panel a zapni spouštění po startu Windows (lekce 3).`,
               `V <b>Nastavení</b> najdeš <b>kanál vydání</b>: <i>Stable</i> (výchozí, méně častých a otestovanějších aktualizací) nebo <i>Latest</i> (nová verze zhruba denně). Pro běžnou práci nech Stable.`
             ] },
             { t: "info", h: `Zdarma běží v aplikaci běžný chat. Práce se soubory, úkoly v pozadí, ovládání počítače a Dispatch potřebují placený plán (Pro, Max, Ultra, firemní plány podle nastavení správce).` },
-            { t: "warn", h: `Na Windows potřebuje práce s úkoly virtualizaci (Hyper-V). Pokud máš edici Windows Home, chat a Code poběží, ale úkoly v izolovaném prostředí podle návodů třetích stran ne. Ověř v aplikaci, co ti nabídne.` }
+            { t: "warn", title: "Windows: zkontroluj edici", h: `Úkoly v izolovaném prostředí (dřív Cowork) potřebují podle návodů třetích stran virtualizaci Hyper-V, tedy Windows <b>Pro, Enterprise nebo Education</b>. Na edici Home poběží chat a Code. Edici zjistíš v Nastavení › Systém › O systému. Ověř v aplikaci, co ti nabídne.` }
           ],
           quiz: [
             { q: "Co je hlavní přidaná hodnota desktopové aplikace proti webu?", o: ["Hezčí vzhled", "Přístup k počítači: soubory, aplikace, obrazovka, lokální rozšíření", "Jiný model Claude"], a: 1, why: "Účet a konverzace jsou stejné; desktop přidává přístup k tvému počítači." },
@@ -89,40 +89,39 @@ AKADEMIE.add({
         },
         {
           id: "dk-03",
-          title: "Rychlé zadání a klávesové zkratky",
+          title: "Rychlý přístup na Windows (a jak je to na Macu)",
           minutes: 4,
-          lead: `Nejrychlejší cesta ke Claude je nepřepínat okna. Na Macu otevřeš okénko pro dotaz z jakékoli aplikace, přidáš snímek obrazovky nebo nadiktuješ.`,
+          lead: `Nejrychlejší cesta ke Claude je nepřepínat okna. Na Windows zatím není vlastní okénko Quick entry jako na Macu, ale se zkratkami samotných Windows se dostaneš skoro stejně daleko.`,
           blocks: [
-            { t: "h", x: "Mac: Quick entry" },
+            { t: "h", x: "Windows: pět zkratek, které stojí za to" },
             { t: "table", head: ["Akce", "Jak"], rows: [
-              ["Otevřít okénko pro dotaz", "Dvakrát rychle <b>Option</b> (lze změnit na Option + Mezerník nebo vlastní)"],
-              ["Přiložit snímek části obrazovky", "Otevři okénko a táhni přes plochu <i>Drag to take a screenshot</i>"],
-              ["Přiložit celé okno", "Otevři okénko a klikni na okno aplikace"],
-              ["Diktovat", "<b>Caps Lock</b> začne, další stisk ukončí (nejdřív zapnout, výchozí je vypnuto)"],
-              ["Odeslat", "Enter nebo šipka"]
+              ["Otevřít Claude odkudkoli", "Připni Claude na <b>hlavní panel</b> a otevírej <b>Win + číslo</b> jeho pozice (první ikona = Win + 1)"],
+              ["Snímek části obrazovky do Claude", "<b>Win + Shift + S</b>, vyber oblast, pak v Claude <b>Ctrl + V</b>"],
+              ["Diktovat místo psaní", "<b>Win + H</b> (hlasové zadávání Windows, funguje v poli zprávy Claude; čeština podle jazykových balíčků)"],
+              ["Vložit soubor", "Přetáhni ho z Průzkumníka do okna Claude, nebo zkopíruj a <b>Ctrl + V</b>"],
+              ["Rychle zpět k práci", "<b>Alt + Tab</b>; Claude nech otevřený na pozadí"]
             ] },
             { t: "steps", items: [
-              `Zkratky změníš v <b>Nastavení › Desktop app</b> (starší rozložení: Nastavení › System, část „This computer“).`,
-              `Mac si vyžádá oprávnění v <b>Nastavení systému › Soukromí a zabezpečení</b>: <i>Zpřístupnění</i> (pro okénko), <i>Nahrávání obrazovky</i> (snímky a okna), <i>Rozpoznávání řeči</i> (diktování, macOS 14 a novější).`,
-              `Rychlé zadání potřebuje macOS 12 a novější a běžící aplikaci (stačí na pozadí). Je dostupné na všech plánech včetně Free.`
+              `Klikni pravým na ikonu Claude na hlavním panelu › <b>Připnout na hlavní panel</b> a přetáhni ji na první pozici. Pak stačí <b>Win + 1</b>.`,
+              `Zapni, aby se Claude <b>spouštěl po startu Windows</b> (Nastavení Windows › Aplikace › Po spuštění, nebo volba v aplikaci). Bez běžící aplikace nefunguje práce se soubory ani Dispatch.`,
+              `Hlasové zadávání si vyzkoušej: klikni do pole zprávy, <b>Win + H</b>, mluv. Pokud čeština nejde, přidej ji v Nastavení › Čas a jazyk › Jazyk a oblast.`
             ] },
-            { t: "h", x: "Windows" },
-            { t: "p", h: `Quick entry na Windows zatím není. Nejbližší náhrada: připni Claude na <b>hlavní panel</b> a otevírej ho zkratkou <b>Win + číslo pozice</b> (např. Win + 1). Snímek obrazovky uděláš <b>Win + Shift + S</b> a vložíš do zprávy přes <b>Ctrl + V</b>.` },
-            { t: "tip", title: "Kdy se zkratka vyplatí", h: `Chybová hláška v jiné aplikaci, graf v prohlížeči, e-mail, na který nevíš jak odpovědět: Option Option, klik na okno, napiš „co s tím?“. Za tři vteřiny máš odpověď bez kopírování.` },
-            { t: "warn", h: `Diktování přes Caps Lock převezme klávesu Caps Lock. Pokud ji používáš na psaní velkých písmen, nastav si raději vlastní zkratku.` }
+            { t: "tip", title: "Kdy se to vyplatí", h: `Chybová hláška v jiné aplikaci, graf v prohlížeči, e-mail, na který nevíš jak odpovědět: <b>Win + Shift + S</b>, výřez, <b>Win + 1</b>, <b>Ctrl + V</b>, napiš „co s tím?“. Pár vteřin, žádné opisování.` },
+            { t: "info", title: "Na Macu: Quick entry", h: `Mac má vlastní okénko <b>Quick entry</b>: dvakrát Option otevře dotaz z jakékoli aplikace, tažením přiložíš snímek, kliknutím celé okno, Caps Lock diktuje. Podle help centra je zatím jen pro macOS. Kdyby přibylo i pro Windows, najdeš ho v Nastavení › Desktop app.` }
           ],
           quiz: [
-            { q: "Jak na Macu výchozím způsobem otevřeš rychlé zadání?", o: ["Cmd + Q", "Dvakrát rychle Option", "Ctrl + Alt + C"], a: 1, why: "Výchozí je dvojí stisk Option; lze změnit v Nastavení › Desktop app." },
-            { q: "Které oprávnění macOS potřebuje snímek obrazovky v rychlém zadání?", o: ["Kalendář", "Nahrávání obrazovky", "Poloha"], a: 1, why: "Snímky a sdílení oken potřebují Nahrávání obrazovky." },
-            { q: "Je Quick entry dostupné na Windows?", o: ["Ano, stejně jako na Macu", "Ne, zatím jen macOS", "Jen ve Windows 11 Pro"], a: 1, why: "Help center uvádí jen macOS; na Windows pomůže připnutí na panel a Win + číslo." }
+            { q: "Claude je připnutý jako první ikona na hlavním panelu. Jak ho otevřeš z klávesnice?", o: ["Ctrl + Alt + C", "Win + 1", "Alt + F4"], a: 1, why: "Win + číslo otevře připnutou aplikaci na dané pozici." },
+            { q: "Jak dostaneš výřez obrazovky do Claude na Windows?", o: ["Win + Shift + S, pak Ctrl + V v Claude", "Print Screen a uložit do Dokumentů", "Nejde to"], a: 0, why: "Výstřižek jde do schránky a vložíš ho rovnou do zprávy." },
+            { q: "Je Quick entry (okénko přes dvojí Option) dostupné na Windows?", o: ["Ano", "Ne, zatím jen macOS", "Jen ve Windows 11 Pro"], a: 1, why: "Help center ho uvádí jen pro macOS; na Windows ho nahradí Win + číslo, Win + Shift + S a Win + H." }
           ],
           cards: [
-            { f: "Quick entry na Macu", b: "Option Option = okénko pro dotaz; táhni = snímek; klik na okno = celé okno; Caps Lock = diktování (zapnout v nastavení)." },
-            { f: "Oprávnění macOS pro Claude", b: "Zpřístupnění (okénko), Nahrávání obrazovky (snímky), Rozpoznávání řeči (diktování)." },
-            { f: "Rychlý Claude na Windows", b: "Připnout na hlavní panel → Win + číslo. Snímek Win + Shift + S, vložit Ctrl + V." }
+            { f: "Rychlý Claude na Windows", b: "Připnout na panel → Win + 1. Výřez Win + Shift + S → Ctrl + V. Diktování Win + H." },
+            { f: "Claude po startu Windows", b: "Zapnout spouštění po startu, jinak nefunguje práce se soubory ani Dispatch." },
+            { f: "Quick entry (Mac)", b: "Option Option = okénko pro dotaz; tažení = snímek; klik = okno; Caps Lock = diktování. Jen macOS." }
           ],
           terms: [
-            { t: "Quick entry", d: "Okénko pro rychlý dotaz na Claude odkudkoli v macOS, se snímkem obrazovky a diktováním." }
+            { t: "Quick entry", d: "Okénko pro rychlý dotaz na Claude odkudkoli; zatím jen v macOS. Na Windows ho nahradí zkratky systému." },
+            { t: "Win + H", d: "Hlasové zadávání ve Windows: diktování do jakéhokoli textového pole, i do Claude." }
           ]
         }
       ]
@@ -149,7 +148,7 @@ AKADEMIE.add({
               `Hromadné operace: přejmenovat, roztřídit, sloučit desítky souborů.`
             ] },
             { t: "ex", title: "Ukázka: bezpečné zadání se soubory", turns: [
-              { who: "user", text: `Ve složce Dokumenty/Faktury-2026 je asi 40 PDF. Neměň originály. Vytvoř podsložku vystup a v ní tabulku faktury.xlsx (dodavatel, datum, částka, splatnost) a seznam faktur po splatnosti. Co nepůjde přečíst, vypiš zvlášť.` }
+              { who: "user", text: `Ve složce Dokumenty\\Faktury-2026 je asi 40 PDF. Neměň originály. Vytvoř podsložku vystup a v ní tabulku faktury.xlsx (dodavatel, datum, částka, splatnost) a seznam faktur po splatnosti. Co nepůjde přečíst, vypiš zvlášť.` }
             ], note: `Tři pojistky: <b>originály nechat</b>, <b>výstup do podsložky</b>, <b>pravidlo pro nejistotu</b>.` },
             { t: "tip", h: `Pro jednorázovou práci si udělej pracovní kopii složky. Když se něco pokazí, originál zůstane netknutý.` }
           ],
@@ -209,7 +208,7 @@ AKADEMIE.add({
             ] },
             { t: "ul", items: [
               `Než poprvé sáhne do nové aplikace, <b>požádá o povolení</b>. Některé aplikace (podle návodů např. investiční a kryptoměnové) jsou ve výchozím stavu zakázané.`,
-              `Funguje na Macu a Windows, jen když je aplikace Claude Desktop <b>otevřená</b>. Na Linuxu ovládání počítače není.`,
+              `Funguje na Windows i Macu, jen když je aplikace Claude Desktop <b>otevřená</b>. Na Linuxu ovládání počítače není.`,
               `Pro Pro, Max a Ultra je ovládání počítače dostupné přímo, pro Team a Enterprise jako postupně zapínaná beta, kterou musí povolit správce (volba Computer access).`
             ] },
             { t: "ex", title: "Ukázka: aplikace bez konektoru", turns: [
@@ -224,7 +223,7 @@ AKADEMIE.add({
           ],
           cards: [
             { f: "Pořadí nástrojů Claude", b: "1. konektor, 2. prohlížeč, 3. obrazovka, myš a klávesnice." },
-            { f: "Computer use: podmínky", b: "Mac nebo Windows, otevřený Claude Desktop, povolení pro každou novou aplikaci." }
+            { f: "Computer use: podmínky", b: "Windows nebo Mac, otevřený Claude Desktop, povolení pro každou novou aplikaci." }
           ],
           terms: [
             { t: "Computer use", d: "Ovládání počítače: Claude vidí obrazovku, kliká a píše v aplikacích bez konektoru." },
